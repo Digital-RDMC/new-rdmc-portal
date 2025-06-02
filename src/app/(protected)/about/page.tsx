@@ -1,15 +1,11 @@
 "use client";
 
-import DateExample from "@/components/DateExample";
+
 import "@/i18n";
-import { useEffect, useState, Suspense } from "react";
+
 
 function AboutContent() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
 
   return (
     <div className="prose dark:prose-invert">
@@ -32,16 +28,15 @@ function AboutContent() {
         You can also share links with a specific language by adding ?lang=en,
         ?lang=fr, or ?lang=ar to the URL.
       </p>
-      {/* Import and use DateExample component */}
-      {mounted && <DateExample />}
+ 
     </div>
   );
 }
 
 export default function About() {
   return (
-    <Suspense fallback={<div>Loading about page...</div>}>
+   
       <AboutContent />
-    </Suspense>
+  
   );
 }
