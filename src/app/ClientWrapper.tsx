@@ -1,7 +1,7 @@
 // src/app/ClientWrapper.tsx
 "use client";
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { ThemeProvider } from 'next-themes';
 
 interface ClientWrapperProps {
@@ -18,7 +18,9 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ children }) => {
       enableColorScheme
       forcedTheme={typeof window === 'undefined' ? 'light' : undefined} // Force light theme during SSR
     >
-      {children}
+      <Suspense fallback={<div>Loading app...</div>}>
+        {children}
+      </Suspense>
     </ThemeProvider>
   );
 };

@@ -1,14 +1,10 @@
 "use client";
 
-// import { useTr anslation } from "react-i18next";
-// import Image from "next/image";
-
 import DateExample from "@/components/DateExample";
 import "@/i18n";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function About() {
-  // const { t } = useTranslation();
+function AboutContent() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -39,5 +35,13 @@ export default function About() {
       {/* Import and use DateExample component */}
       {mounted && <DateExample />}
     </div>
+  );
+}
+
+export default function About() {
+  return (
+    <Suspense fallback={<div>Loading about page...</div>}>
+      <AboutContent />
+    </Suspense>
   );
 }

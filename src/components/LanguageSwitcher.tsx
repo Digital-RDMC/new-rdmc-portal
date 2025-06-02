@@ -4,16 +4,18 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageProvider';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
 import { LanguagesIcon } from 'lucide-react';
+import { SearchParamsWrapper } from '@/components/SearchParamsWrapper';
 
-const LanguageSwitcher: React.FC = () => {  const { t } = useTranslation();
+// Inner component that uses searchParams
+const LanguageSwitcherContent = ({ searchParams }: { searchParams: URLSearchParams }) => {
+  const { t } = useTranslation();
   const { changeLanguage } = useLanguage();
   const [mounted, setMounted] = useState(false);
-  const searchParams = useSearchParams();
   const pathname = usePathname();
 
   // Handler that changes language and updates URL
@@ -39,9 +41,7 @@ const LanguageSwitcher: React.FC = () => {  const { t } = useTranslation();
   }
 
   return (
-
-
-          <DropdownMenu>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="rounded-full border-0">
           <LanguagesIcon />
@@ -49,28 +49,25 @@ const LanguageSwitcher: React.FC = () => {  const { t } = useTranslation();
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => handleLanguageChange('en')}>
-
-
-
           {t('english')}
-       
-          
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleLanguageChange('fr')}>
-
-            {t('french')}
-        
+          {t('french')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleLanguageChange('ar')}>
-       
-            {t('arabic')}
-         
+          {t('arabic')}
         </DropdownMenuItem>
-        </DropdownMenuContent>
-        </DropdownMenu>
-        
-       
-    
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+// Outer component that wraps with SearchParamsWrapper
+const LanguageSwitcher: React.FC = () => {
+  return (
+    <SearchParamsWrapper>
+      {(searchParams: URLSearchParams) => <LanguageSwitcherContent searchParams={searchParams} />}
+    </SearchParamsWrapper>
   );
 };
 
