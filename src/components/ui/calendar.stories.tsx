@@ -163,24 +163,29 @@ export const CustomDayRender: Story = {
       );
     };
     
-    return (
-      <div className="space-y-4">
-        <Calendar 
+    return (      <div className="space-y-4">        <Calendar 
           mode="single"
           defaultMonth={new Date(2025, 5)}
-          components={{
-            DayContent: (props) => {
-              const date = props.date;
-              const hasEventOnDay = hasEvent(date);
+          modifiers={{
+            event: (date) => hasEvent(date)
+          }}
+          modifiersClassNames={{
+            event: "has-event"
+          }}          components={{
+            Day: ({ day, ...props }) => {
+              const isEvent = day && hasEvent(day.date);
               
               return (
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <div>{props.date.getDate()}</div>
-                  {hasEventOnDay && (
-                    <div className="absolute bottom-1 w-1 h-1 bg-blue-500 rounded-full" />
+                <div 
+                  {...props}
+                  className={`${props.className} relative`}
+                >
+                  <span>{day.date.getDate()}</span>
+                  {isEvent && (
+                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-500 rounded-full" />
                   )}
                 </div>
-              );
+              )
             }
           }}
         />

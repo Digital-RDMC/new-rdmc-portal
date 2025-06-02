@@ -65,13 +65,16 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
-      }}
-      components={{
-        IconLeft: ({ className, ...props }) => (
-          <ChevronLeft className={cn("size-4", className)} {...props} />
+      }}      components={{
+        PreviousMonthButton: ({ className, ...props }) => (
+          <button className={cn("size-4", className)} {...props}>
+            <ChevronLeft className="size-4" />
+          </button>
         ),
-        IconRight: ({ className, ...props }) => (
-          <ChevronRight className={cn("size-4", className)} {...props} />
+        NextMonthButton: ({ className, ...props }) => (
+          <button className={cn("size-4", className)} {...props}>
+            <ChevronRight className="size-4" />
+          </button>
         ),
       }}
       {...props}
