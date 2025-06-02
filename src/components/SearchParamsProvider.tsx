@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, ReactNode } from 'react';
-import { SearchParamsWrapper } from './SearchParamsWrapper';
+// import { SearchParamsWrapper } from './SearchParamsWrapper';
 
 interface SearchParamsProviderProps {
   children: ReactNode;
