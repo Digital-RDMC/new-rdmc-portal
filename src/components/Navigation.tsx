@@ -143,157 +143,7 @@ const Navigation = ({
   const [isMobile, setIsMobile] = useState(false);
 
   const [activePath, setActivePath] = useState<any>(null);
-  const [sideBarData, setSideBarData] = useState<Data | null>({
-     navMain: [
-        {
-          title: "Getting Started",
-          url: "#",
-          items: [
-            {
-              title: t("side.Home"),
-              url: "/",
-              icon: 'HomeIcon',
-            },
-            {
-              title: t("side.Tasks"),
-              url: "/tasks",
-              icon: 'ClipboardCheckIcon',
-            },
-          ],
-        },
-        {
-          title: "Communication",
-          url: "#",
-          items: [
-            {
-              title: t("side.Newsletter"),
-              url: "/newsletter",
-              icon: 'Calendar',
-             
-            },
-            {
-              title: t("side.EBusinesscard"),
-              url: "/ebussinesscard",
-              icon: 'IdCard',
-              disabled: true,
-            },
-            {
-              title: t("side.Trainingcenter"),
-              url: "/trainingcenter",
-              icon: 'GalleryVertical',
-              disabled: true,
-            },
-          ],
-        }, 
-        {
-          title: "Department",
-          url: "#",
-          items: [
-            {
-              title: t("side.CustomerService"),
-              url: "/cs",
-              icon: 'Calendar',
-             
-            },
-            {
-              title: "Maintance",
-              url: "/mc",
-              icon: 'IdCard',
-         
-            },
-            {
-              title: "Performance",
-              url: "/performance",
-              icon: 'GalleryVertical',
-             
-            },  {
-              title: "Operation",
-              url: "/operation",
-              icon: 'SlackIcon',
-             
-            },
-          ],
-        },
-        {
-          title: "Human Resources",
-          url: "#",
-          items: [
-            {
-              title: t("side.HRDocuments"),
-              url: "/hrdocuments",
-              icon: 'FileStack',
-             
-            },
-            {
-              title: t("side.HRServiceDisk"),
-              url: "/hrservicedisk",
-              icon: 'Users2Icon',
-              disabled: true,
-            },
-            {
-              title: t("side.Kelio"),
-              url: "https://attendance.mobilitycairo.com/open/login",
-              target: true,
-              icon: 'AlarmClock',
-            },
-            {
-              title: t("side.TalentSoft"),
-              url: "https://ratpdev.talent-soft.com/",
-              target: true,
-              icon: 'Crown',
-            },
-            {
-              title: t("side.Payslip"),
-              url: "https://hrservices.mobilitycairo.com/selfservice/",
-              target: true,
-              icon: 'EuroIcon',
-            },
-          ],
-        },
-        {
-          title: "Documents",
-          url: "#",
-          items: [
-            {
-              title: t("side.Policies"),
-              url: "/policies",
-              icon: 'ScrollTextIcon',
-              disabled: true,
-            },
-            {
-              title: t("side.Templates"),
-              url: "/templates",
-              icon: 'FileSpreadsheet',
-              disabled: true,
-            },
-            {
-              title: t("side.Compliance"),
-              url: "/compliance",
-              icon: 'ScaleIcon',
-              disabled: true,
-            },
-          ],
-        },
-        {
-          title: "Digital",
-          url: "#",
-          items: [
-            {
-              title: t("side.userguide"),
-              url: "/digital",
-              icon: 'TvMinimalIcon',
-              disabled: true,
-            },
-            {
-              title: t("side.DigitalServiceDisk"),
-              url: "/digitalservicedisk",
-              icon: 'UsersIcon',
-              disabled: true,
-            },
-          ],
-        },
-      ],
-  });
+  const [sideBarData, setSideBarData] = useState<Data | null>(null);
 
   // This ensures we only render the translated content after the component is mounted
   // to prevent hydration errors
@@ -308,107 +158,7 @@ const Navigation = ({
   }, []);
   useEffect(() => {
     if (mounted) {
-      // const data: Data = {
-      //   navMain: [
-      //     {
-      //       title: "Getting Started",
-      //       icon: HomeIcon,
-      //       url: "#",
-      //       items: [
-      //         {
-      //           title: "home",
-
-      //           url: "/",
-      //         },
-      //         {
-      //           title: "about",
-
-      //           url: "/about",
-      //         },
-      //       ],
-      //     },
-
-      //     {
-      //       title: "Human Resources",
-      //       icon: HomeIcon,
-      //       url: "#",
-      //       items: [
-      //         {
-      //           title: "hr",
-
-      //           url: "/hr",
-      //         },
-      //       ],
-      //     },
-
-      //     {
-      //       title: "Building Your Application",
-      //       icon: GalleryVerticalEnd,
-      //       url: "#",
-      //       items: [
-      //         {
-      //           title: "Routing",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Data Fetching",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Rendering",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Caching",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Styling",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Optimizing",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Configuring",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Testing",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Authentication",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Deploying",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Upgrading",
-      //           url: "#",
-      //         },
-      //         {
-      //           title: "Examples",
-      //           url: "#",
-      //         },
-      //       ],
-      //     },
-
-      //     {
-      //       title: "Community",
-      //       url: "#",
-      //       items: [
-      //         {
-      //           title: "Contribution Guide",
-      //           url: "#",
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // };
+      
 
       const s = data?.navMain.map((item) => {
         // Create a shallow copy to avoid mutating the original data
@@ -456,8 +206,8 @@ const Navigation = ({
                       <GalleryVerticalEnd className="size-4" />
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
-                      <span className="font-semibold">Documentation</span>
-                      <span className="">v1.0.0</span>
+                      <span className="font-semibold">{t('rdmcPortal')}</span>
+                      <span className="w-full text-start text-xs">{t('version')}</span>
                     </div>
                   </Link>
                 </SidebarMenuButton>
@@ -470,7 +220,7 @@ const Navigation = ({
                 icon={SearchIcon}
                 className="h-7"
                 iconPosition="right"
-                placeholder="Find element"
+                placeholder={t('findElements')}
               />
             </SidebarGroup>
             <SidebarGroup>
@@ -637,9 +387,9 @@ const Navigation = ({
             
             
           </header>
-          <main className="container mx-auto">
+          <main className=" w-full mx-auto">
             <ScrollArea
-              className="h-[calc(100vh-64px)] w-full max-w-7xl mx-auto"
+              className="h-[calc(100vh-64px)]  w-full mx-auto"
               dir={i18n.language === "ar" ? "rtl" : "ltr"}
             >
               {children}

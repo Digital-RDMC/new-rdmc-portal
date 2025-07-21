@@ -1,4 +1,7 @@
+"use client";
 import Navigation from "@/components/Navigation";
+import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 // import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 interface Data {
   navMain: {
@@ -21,155 +24,70 @@ export default function ProtectedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {  const data: Data = {
+}>) {  
+  const { t, i18n } = useTranslation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Check for vtoken cookie on component mount and when cookies change
+  useEffect(() => {
+    const checkAuthToken = () => {
+      const vtoken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('vtoken='))
+        ?.split('=')[1];
+      
+      setIsAuthenticated(!!vtoken);
+    };
+    
+    // Check initially
+    checkAuthToken();
+    
+    // Set up an interval to check for cookie changes every 5 seconds
+    const interval = setInterval(checkAuthToken, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const data: Data = {
    navMain: [
         {
-          title: "Getting Started",
+          title: t('gettingStarted'),
           url: "#",
           items: [
-            {
-              title: "Home",
+          
+            // Only show login if user is not authenticated
+            ...(isAuthenticated ? [
+{
+              title: t('home'),
               url: "/",
               icon: 'HomeIcon',
             },
-            {
-              title: "Tasks",
-              url: "/tasks",
-              icon: 'ClipboardCheckIcon',
+
+
+              {
+                title: t('about'),
+                url: "/about",
+                icon: 'InfoIcon',
+              },
+
+            ] : [
+
+              {
+              title: t('login'),
+              url: "/",
+              icon: 'HomeIcon',
             },
+              
+            //   {
+            //   title: t('login'),
+            //   url: "/login",
+            //   icon: 'ClipboardCheckIcon',
+            // }
+          
+          ]),
           ],
         },
-        {
-          title: "Communication",
-          url: "#",
-          items: [
-            {
-              title: "Newsletter",
-              url: "/newsletter",
-              icon: 'Calendar',
-             
-            },
-            {
-              title: "E-Business Card",
-              url: "/ebussinesscard",
-              icon: 'IdCard',
-              disabled: true,
-            },
-            {
-              title: "Training Center",
-              url: "/trainingcenter",
-              icon: 'GalleryVertical',
-              disabled: true,
-            },
-          ],
-        }, 
-        {
-          title: "Department",
-          url: "#",
-          items: [
-            {
-              title: "Customer Service",
-              url: "/cs",
-              icon: 'Calendar',
-             
-            },
-            {
-              title: "Maintance",
-              url: "/mc",
-              icon: 'IdCard',
-         
-            },
-            {
-              title: "Performance",
-              url: "/performance",
-              icon: 'GalleryVertical',
-             
-            },  {
-              title: "Operation",
-              url: "/operation",
-              icon: 'SlackIcon',
-             
-            },
-          ],
-        },
-        {
-          title: "Human Resources",
-          url: "#",
-          items: [
-            {
-              title: "HR Documents",
-              url: "/hrdocuments",
-              icon: 'FileStack',
-             
-            },
-            {
-              title: "HR Service Disk",
-              url: "/hrservicedisk",
-              icon: 'Users2Icon',
-              disabled: true,
-            },
-            {
-              title: "Kelio",
-              url: "https://attendance.mobilitycairo.com/open/login",
-              target: true,
-              icon: 'AlarmClock',
-            },
-            {
-              title: "TalentSoft",
-              url: "https://ratpdev.talent-soft.com/",
-              target: true,
-              icon: 'Crown',
-            },
-            {
-              title: "Payslip",
-              url: "https://hrservices.mobilitycairo.com/selfservice/",
-              target: true,
-              icon: 'EuroIcon',
-            },
-          ],
-        },
-        {
-          title: "Documents",
-          url: "#",
-          items: [
-            {
-              title: "Policies",
-              url: "/policies",
-              icon: 'ScrollTextIcon',
-              disabled: true,
-            },
-            {
-              title: "Templates",
-              url: "/templates",
-              icon: 'FileSpreadsheet',
-              disabled: true,
-            },
-            {
-              title: "Compliance",
-              url: "/compliance",
-              icon: 'ScaleIcon',
-              disabled: true,
-            },
-          ],
-        },
-        {
-          title: "Digital",
-          url: "#",
-          items: [
-            {
-              title: "User Guide",
-              url: "/digital",
-              icon: 'TvMinimalIcon',
-              disabled: true,
-            },
-            {
-              title: "Digital Service Disk",
-              url: "/digitalservicedisk",
-              icon: 'UsersIcon',
-              disabled: true,
-            },
-          ],
-        },
+       
       ],
   };
 

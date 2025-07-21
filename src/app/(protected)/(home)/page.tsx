@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import LoginContent from "@/components/LoginContent";
 
 // import Navigation from "@/app/components/Navigation";
 import { useEffect, useState } from "react";
@@ -10,6 +11,29 @@ import "@/i18n"; // Import the i18n configuration
 export default function Home() {
   const { t, i18n } = useTranslation();
   const [mounted, setMounted] = useState(false);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // Check for vtoken cookie on component mount and when cookies change
+  useEffect(() => {
+    const checkAuthToken = () => {
+      const vtoken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('vtoken='))
+        ?.split('=')[1];
+      
+      setIsAuthenticated(!!vtoken);
+    };
+    
+    // Check initially
+    checkAuthToken();
+    
+    // Set up an interval to check for cookie changes every 5 seconds
+    const interval = setInterval(checkAuthToken, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
 
   useEffect(() => {
     // Apply RTL styling if needed when the component mounts
@@ -28,7 +52,8 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col ">
       {/* <Navigation /> */}
-      
+
+      {!isAuthenticated ? <LoginContent /> :
       <div className="flex-grow p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
         <main className="flex flex-col gap-[32px] items-center sm:items-start max-w-7xl mx-auto">
           <div className="w-full flex flex-col items-center gap-4 mb-8">
@@ -135,6 +160,9 @@ export default function Home() {
         </a>
       </footer>
     </div>
+
+ }
+
   </div>
   );
     

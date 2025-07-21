@@ -8,7 +8,7 @@ function AboutContent() {
   
 
   return (
-    <div className="prose dark:prose-invert">
+    <div className="prose dark:prose-invert container mx-auto p-4">
       <p className="mb-4">
         This is a demonstration of Next.js with internationalization (i18n)
         using react-i18next. It allows for language switching without changing
