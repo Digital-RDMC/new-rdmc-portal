@@ -8,7 +8,8 @@ import { usePathname } from 'next/navigation';
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from './ui/button';
-import { LanguagesIcon } from 'lucide-react';
+import Image from 'next/image';
+// import { LanguagesIcon } from 'lucide-react';
 import { SearchParamsWrapper } from '@/components/SearchParamsWrapper';
 
 // Inner component that uses searchParams
@@ -51,7 +52,7 @@ const LanguageSwitcherContent = ({ searchParams }: { searchParams: URLSearchPara
             ar: 'العربية',
           }[(searchParams.get('lang') as 'en' | 'fr' | 'ar') || 'en'])}
 
-          <img src={`/images/${(searchParams.get('lang') as 'en' | 'fr' | 'ar') || 'en'}.png`} alt="Language Icon" className="h-4 w-4" />
+          <Image src={`/images/${(searchParams.get('lang') as 'en' | 'fr' | 'ar') || 'en'}.png`} alt="Language Icon" width={16} height={16} className="h-4 w-4" />
 
           {/* <LanguagesIcon /> */}
         </Button>
@@ -59,17 +60,17 @@ const LanguageSwitcherContent = ({ searchParams }: { searchParams: URLSearchPara
       <DropdownMenuContent align="end">
         {searchParams.get('lang') as 'en' | 'fr' | 'ar' !== 'en'  && searchParams.get('lang') !== "" && (
           <DropdownMenuItem className='flex flex-row items-center justify-between' onClick={() => handleLanguageChange('en')}>
-            <span> {t('english')}</span>  <img src={`/images/en.png`} alt="Language Icon" className="h-4 w-4" />
+            <span> {t('english')}</span>  <Image src={`/images/en.png`} alt="Language Icon" width={16} height={16} className="h-4 w-4" />
           </DropdownMenuItem>
         )}
         {searchParams.get('lang') as 'en' | 'fr' | 'ar' !== 'fr'  && (
           <DropdownMenuItem className='flex flex-row items-center justify-between' onClick={() => handleLanguageChange('fr')}>
-            <span> {t('french')}</span>  <img src={`/images/fr.png`} alt="Language Icon" className="h-4 w-4" />
+            <span> {t('french')}</span>  <Image src={`/images/fr.png`} alt="Language Icon" width={16} height={16} className="h-4 w-4" />
           </DropdownMenuItem>
         )}
         {searchParams.get('lang') as 'en' | 'fr' | 'ar' !== 'ar'  && (
           <DropdownMenuItem className='flex flex-row items-center justify-between' onClick={() => handleLanguageChange('ar')}>
-            <span> {t('arabic')}</span>  <img src={`/images/ar.png`} alt="Language Icon" className="h-4 w-4" />
+            <span> {t('arabic')}</span>  <Image src={`/images/ar.png`} alt="Language Icon" width={16} height={16} className="h-4 w-4" />
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>

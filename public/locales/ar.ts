@@ -1,8 +1,9 @@
-export default {
+const arLocale = {
   translation: {
     welcome: 'مرحبًا بك في تطبيقنا',
     about: 'معلومات عنا',
     home: 'الرئيسية',
+    updateemps: 'تحديث الموظفين',
     changeLanguage: 'تغيير اللغة',
     english: 'English',
     french: 'Français',
@@ -73,3 +74,4 @@ export default {
     ebusinessCard: 'البطاقة الإلكترونية',
   }
 };
+export default arLocale;

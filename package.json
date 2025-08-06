@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint-all": "eslint --ext .js,.jsx,.ts,.tsx --ignore-pattern \"**/*.stories.*\" .",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "lint-all": "eslint --ext .js,.jsx,.ts,.tsx .",
     "deploy": "powershell -File ./vercel-deploy.ps1"
   },
   "dependencies": {
@@ -45,14 +43,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@storybook/addon-essentials": "^8.6.14",
-    "@storybook/addon-interactions": "^8.6.14",
-    "@storybook/addon-links": "^8.6.14",
-    "@storybook/blocks": "^8.6.14",
-    "@storybook/nextjs": "^8.6.14",
-    "@storybook/react": "^8.6.14",
-    "@storybook/react-webpack5": "^8.6.14",
-    "@storybook/test": "^8.6.14",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -62,8 +52,6 @@
     "ajv": "^8.12.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
-    "eslint-plugin-storybook": "^0.6.15",
-    "storybook": "^8.6.14",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.0",
     "typescript": "^5"

@@ -18,6 +18,7 @@ import { OTPVerification } from "@/components/otp-verification";
 import { LoginWarning } from "@/components/login-warning";
 import ThemeSwitcher from "@/components/ThemeSwitcher2";
 import  LanguageSwitcher  from "@/components/LanguageSwitcher2";
+import Image from 'next/image';
 
 type LoginMethod = 'email' | 'phone' | 'employeeCode' | 'username';
 type LoginState = 'login' | 'otp' | 'warning';
@@ -264,10 +265,11 @@ export default function Login() {
         
         {/* Worldmap Background */}
         <div className="absolute inset-0 opacity-80 dark:opacity-50">
-          <img 
+          <Image 
             src="/images/worldmap.svg" 
             alt="" 
-            className="w-full h-full object-cover object-center"
+            fill
+            className="object-cover object-center"
             onError={(e) => {
               console.log('Worldmap image failed to load');
               e.currentTarget.style.display = 'none';
@@ -277,10 +279,11 @@ export default function Login() {
         </div>  
         <div className="absolute inset-0 opacity-80 dark:opacity-50">
          
-           <img 
+           <Image 
             src="/images/shades.svg" 
             alt="" 
-            className="w-full h-full object-cover object-center"
+            fill
+            className="object-cover object-center"
             onError={(e) => {
               console.log('Shades image failed to load');
               e.currentTarget.style.display = 'none';
@@ -308,9 +311,11 @@ export default function Login() {
             </div>
 
               <div className="mb-6 flex justify-center">
-          <img 
+          <Image 
             src="/images/logo.png" 
             alt="RATP Dev Mobility Cairo" 
+            width={200}
+            height={48}
             className="h-12 w-auto"
             style={{ maxWidth: '200px' }}
           />

@@ -1,10 +1,11 @@
-import { version } from "os";
 
-export default {
+
+const enLocale = {
   translation: {
     welcome: 'Welcome to our application',
     about: 'About Us',
     home: 'Home',
+    updateemps: 'Update Employees',
     changeLanguage: 'Change Language',
     english: 'English',
     french: 'French',
@@ -94,3 +95,5 @@ CapitalTrain: "Capital Train (LRT)",
     },
   }
 };
+
+export default enLocale;

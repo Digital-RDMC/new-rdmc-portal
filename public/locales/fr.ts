@@ -1,8 +1,9 @@
-export default {
+const frLocale = {
   translation: {
     welcome: 'Bienvenue sur notre application',
     about: 'À propos de nous',
     home: 'Accueil',
+    updateemps: 'Mettre à jour les employés',
     changeLanguage: 'Changer de langue',
     english: 'Anglais',
     french: 'Français',
@@ -73,3 +74,4 @@ export default {
     ebusinessCard: 'Carte d\'affaires électronique',
   }
 };
+export default frLocale;

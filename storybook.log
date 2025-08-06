@@ -1,5 +1,0 @@
-npm error code ETARGET
-npm error notarget No matching version found for @chromatic-com/storybook@4.0.0-0.
-npm error notarget In most cases you or one of your dependencies are requesting
-npm error notarget a package version that doesn't exist.
-npm error A complete log of this run can be found in: C:\Users\adm_tosman\AppData\Local\npm-cache\_logs\2025-05-31T12_47_50_690Z-debug-0.log

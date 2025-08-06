@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { usePathname } from "next/navigation";
@@ -5,16 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 
 import {
   Breadcrumb,
@@ -52,12 +44,12 @@ import {
   Users2Icon,
   UsersIcon,
   type LucideIcon,
-  Info,
+
 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
+
   SidebarGroup,
   SidebarHeader,
   SidebarInset,
@@ -72,7 +64,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Input } from "@/components/ui/input";
+
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import  LanguageSwitcher  from "@/components/LanguageSwitcher";
 
