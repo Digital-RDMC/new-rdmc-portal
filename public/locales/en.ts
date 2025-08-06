@@ -72,5 +72,25 @@ export default {
     goBackToLogin: 'Go Back to Login',
     needHelp: 'Need help?',
     contactSupport: 'Contact Support',
+    ebusinessCard: 'E-Business Card',
+     homepage: {
+      HOME: "HOME",
+PAGE: "PAGE",
+AboutPortal: "About Portal",
+TheRDMCPortalisa: `The RDMC Portal is a centralized platform that provides seamless
+            access to digital tools, updated documents, and resources across
+            departments. It enables users to stay informed with real-time
+            updates, collaborate effectively, and streamline operational
+            processes. The portal ensures all department-specific materials are
+            readily available in one place. It enhances engagement and
+            connectivity. Sharing the portal is simple by scanning a QR code..`,
+            OneTeam: "One Team",
+            Excellence: "Excellence",
+Socity: "Socity",
+Wecare: "We care",
+Currently12stations22trains20000passengerday: "Currently<br/>12 stations<br/>22 trains<br/>20,000 passenger / day",
+CapitalTrain: "Capital Train (LRT)",
+
+    },
   }
 };

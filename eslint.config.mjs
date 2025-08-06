@@ -18,7 +18,7 @@ const eslintConfig = [
     ignores: ["**/*.stories.tsx", "**/*.stories.ts", "**/*.stories.jsx", "**/*.stories.js", ".storybook/**", "storybook-static/**"]
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
-  ...storybook.configs["flat/recommended"],
+  ...storybook.configs.flat.recommended,
   {
     files: ["**/*.stories.tsx"],
     rules: {

@@ -4,6 +4,7 @@ import "@/i18n";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -15,11 +16,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OTPVerification } from "@/components/otp-verification";
 import { LoginWarning } from "@/components/login-warning";
+import ThemeSwitcher from "@/components/ThemeSwitcher2";
+import  LanguageSwitcher  from "@/components/LanguageSwitcher2";
 
 type LoginMethod = 'email' | 'phone' | 'employeeCode' | 'username';
 type LoginState = 'login' | 'otp' | 'warning';
 
-function LoginContent() {
+export default function Login() {
+  const router = useRouter();
   const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState<LoginMethod>('email');
   const [loginState, setLoginState] = useState<LoginState>('login');
@@ -129,9 +133,10 @@ function LoginContent() {
           
           document.cookie = `vtoken=${result.token}; expires=${expirationTime.toUTCString()}; path=/; secure; samesite=strict`;
           
-          console.log('OTP verification successful and token saved:', result.token);
-          alert('Login successful! Redirecting to dashboard...');
+          // console.log('OTP verification successful and token saved:', result.token);
+          // alert('Login successful! Redirecting to dashboard...');
           // Handle successful login - redirect to dashboard
+          router.push('/');
         } else {
           console.error('OTP verification failed: No token received');
           setErrorMessage('Verification failed: No token received');
@@ -253,15 +258,75 @@ function LoginContent() {
   // Default login form
   return (
     <div className="flex  items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Card>
+       <div className="absolute inset-0 z-0">
+        {/* Test Background - Visible gradient */}
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-cyan-50 to-teal-100 dark:from-blue-900/30 dark:via-cyan-900/20 dark:to-teal-900/30"></div> */}
+        
+        {/* Worldmap Background */}
+        <div className="absolute inset-0 opacity-80 dark:opacity-50">
+          <img 
+            src="/images/worldmap.svg" 
+            alt="" 
+            className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              console.log('Worldmap image failed to load');
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          
+        </div>  
+        <div className="absolute inset-0 opacity-80 dark:opacity-50">
+         
+           <img 
+            src="/images/shades.svg" 
+            alt="" 
+            className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              console.log('Shades image failed to load');
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        </div>
+        
+        {/* Animated Gradient Overlay */}
+        {/* <div className="absolute inset-0 opacity-60 dark:opacity-40">
+          <div 
+            className="w-full h-full bg-gradient-to-br from-blue-500/30 via-cyan-400/20 to-teal-500/30"
+            style={{
+              animation: 'backgroundPulse 4s ease-in-out infinite'
+            }}
+          ></div>
+        </div> */}
+      </div>
+      <div className="w-full max-w-md z-40">
+        <Card className="bg-white/50 dark:bg-gray-800/80 shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl">{t('welcomeBack')}</CardTitle>
+            <CardTitle className="text-xl">
+
+              <div className="flex flex-row justify-center items-center gap-2 pb-5">
+               <LanguageSwitcher />  <ThemeSwitcher />
+            </div>
+
+              <div className="mb-6 flex justify-center">
+          <img 
+            src="/images/logo.png" 
+            alt="RATP Dev Mobility Cairo" 
+            className="h-12 w-auto"
+            style={{ maxWidth: '200px' }}
+          />
+        </div>
+             
+              
+              {t('welcomeBack')}</CardTitle>
             <CardDescription>
               {t('loginWithPreferredMethod')}
             </CardDescription>
           </CardHeader>
           <CardContent>
+
+            
+
+
             <form onSubmit={handleSubmit}>
               <div className="grid gap-6">
                 
@@ -288,7 +353,7 @@ function LoginContent() {
                   <Button 
                     type="button"
                     variant={selectedMethod === 'phone' ? 'default' : 'outline'} 
-                    className={`w-full ${selectedMethod === 'phone' ? 'hidden' : 'hover:bg-primary/10'}`}
+                    className={`w-full ${selectedMethod === 'phone' ? 'hidden' : 'bg-white/50 dark:bg-gray-800/80 hover:bg-primary/10'}`}
                     onClick={() => setSelectedMethod('phone')}
                     disabled={isLoading}
                   >
@@ -311,7 +376,7 @@ function LoginContent() {
                   <Button 
                     type="button"
                     variant={selectedMethod === 'employeeCode' ? 'default' : 'outline'} 
-                     className={`w-full ${selectedMethod === 'employeeCode' ? 'hidden' : 'hover:bg-primary/10'}`}
+                     className={`w-full ${selectedMethod === 'employeeCode' ? 'hidden' : 'bg-white/50 dark:bg-gray-800/80 hover:bg-primary/10'}`}
                     onClick={() => setSelectedMethod('employeeCode')}
                     disabled={isLoading}
                   >
@@ -343,7 +408,7 @@ function LoginContent() {
                   <Button 
                     type="button"
                     variant={selectedMethod === 'username' ? 'default' : 'outline'} 
-                     className={`w-full ${selectedMethod === 'username' ? 'hidden' : 'hover:bg-primary/10'}`}
+                     className={`w-full ${selectedMethod === 'username' ? 'hidden' : 'bg-white/50 dark:bg-gray-800/80 hover:bg-primary/10'}`}
                     onClick={() => setSelectedMethod('username')}
                     disabled={isLoading}
                   >
@@ -367,7 +432,7 @@ function LoginContent() {
                   <Button 
                     type="button"
                     variant={selectedMethod === 'email' ? 'default' : 'outline'} 
-                     className={`w-full ${selectedMethod === 'email' ? 'hidden' : 'hover:bg-primary/10'}`}
+                     className={`w-full ${selectedMethod === 'email' ? 'hidden' : 'bg-white/50 dark:bg-gray-800/80 hover:bg-primary/10'}`}
                     onClick={() => setSelectedMethod('email')}
                     disabled={isLoading}
                   >
@@ -415,6 +480,4 @@ function LoginContent() {
   );
 }
 
-export default function Login() {
-  return <LoginContent />;
-}
+

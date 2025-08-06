@@ -70,5 +70,6 @@ export default {
     goBackToLogin: 'Retour à la connexion',
     needHelp: 'Besoin d\'aide?',
     contactSupport: 'Contacter le support',
+    ebusinessCard: 'Carte d\'affaires électronique',
   }
 };

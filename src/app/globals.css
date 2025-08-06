@@ -50,7 +50,7 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.70 0.12 183);
+  --primary: oklch(0.6008 0.1039 184.76);
   --primary-foreground: oklch(0.982 0.018 155.826);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
@@ -119,4 +119,40 @@
   body {
     @apply bg-background text-foreground transition-colors duration-300;
   }
+}
+
+
+
+.arabicFont{
+  text-align: right;
+  direction: rtl !important;
+}
+
+
+.arabicFont .border-l {
+  border-right-width: 1px;
+  border-left-width: 0px;
+}
+
+
+.arabicFont .bg-sidebar div{
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+.LatinFont{
+  text-align: left;
+  direction: ltr;
+}
+
+
+.webContent{
+  height: calc(100vh - 120px);
+}
+
+
+.ProseMirror{
+  outline: none;
+  /* direction: rtl;
+  text-align: right; */
 }

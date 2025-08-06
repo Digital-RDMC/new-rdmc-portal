@@ -38,6 +38,7 @@ import {
   GalleryVertical,
   GalleryVerticalEnd,
   HomeIcon,
+  InfoIcon,
   IdCard,
   LanguagesIcon,
   LogOutIcon,
@@ -51,6 +52,7 @@ import {
   Users2Icon,
   UsersIcon,
   type LucideIcon,
+  Info,
 } from "lucide-react";
 import {
   Sidebar,
@@ -78,7 +80,7 @@ import  LanguageSwitcher  from "@/components/LanguageSwitcher";
 const IconComponent = ({ iconName, ...props }: { iconName: string; [key: string]: any }) => {
   const iconMap: Record<string, LucideIcon> = {
     HomeIcon: HomeIcon,
-
+InfoIcon: InfoIcon,
     GalleryVerticalEnd: GalleryVerticalEnd,
     BellIcon: BellIcon,
     CreditCardIcon: CreditCardIcon,
@@ -202,8 +204,8 @@ const Navigation = ({
               <SidebarMenuItem>
                 <SidebarMenuButton size="lg" asChild>
                   <Link href="#">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                      <GalleryVerticalEnd className="size-4" />
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-transparent text-primary">
+                      <GalleryVerticalEnd  className="size-4" />
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
                       <span className="font-semibold">{t('rdmcPortal')}</span>
@@ -215,14 +217,14 @@ const Navigation = ({
             </SidebarMenu>
           </SidebarHeader>
           <SidebarContent>
-            <SidebarGroup>
+            {/* <SidebarGroup>
               <Input
                 icon={SearchIcon}
                 className="h-7"
                 iconPosition="right"
                 placeholder={t('findElements')}
               />
-            </SidebarGroup>
+            </SidebarGroup> */}
             <SidebarGroup>
               <SidebarMenu>
                 {sideBarData &&
@@ -280,7 +282,7 @@ const Navigation = ({
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
-          <SidebarFooter>
+          {/* <SidebarFooter>
             <SidebarMenu>
               <SidebarMenuItem>
                 <DropdownMenu>
@@ -359,7 +361,7 @@ const Navigation = ({
                 </DropdownMenu>
               </SidebarMenuItem>
             </SidebarMenu>
-          </SidebarFooter>
+          </SidebarFooter> */}
           <SidebarRail />
         </Sidebar>
         <SidebarInset>          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
