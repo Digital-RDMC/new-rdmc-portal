@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { UserProvider, useUser } from "@/contexts/UserContext";
 
 import LoginPage from "@/app/(protected)/login/page";
-import LoadingPage from "@/app/(protected)/loading/page";
+import LoadingPage from "@/components/LoadingPage";
 // import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 
 interface Data {

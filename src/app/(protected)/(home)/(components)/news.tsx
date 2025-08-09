@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import LoadingPage from "@/app/(protected)/loading/page"
+import LoadingPage from "@/components/LoadingPage"
 
 
 interface Comment {
