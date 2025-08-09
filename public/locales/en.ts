@@ -6,6 +6,7 @@ const enLocale = {
     about: 'About Us',
     home: 'Home',
     updateemps: 'Update Employees',
+    usersmanagement: 'Users Management',
     changeLanguage: 'Change Language',
     english: 'English',
     french: 'French',
@@ -74,6 +75,7 @@ const enLocale = {
     needHelp: 'Need help?',
     contactSupport: 'Contact Support',
     ebusinessCard: 'E-Business Card',
+    adiminPanel: 'Admin Panel',
      homepage: {
       HOME: "HOME",
 PAGE: "PAGE",

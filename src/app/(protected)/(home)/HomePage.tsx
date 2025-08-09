@@ -10,7 +10,7 @@ import NewsPage from './(components)/news';
 export default function HomePage() {
   //  const { t } = useTranslation()
   return (
-    <div>
+    <div className=''>
       <NewsPage />
     </div>
   );

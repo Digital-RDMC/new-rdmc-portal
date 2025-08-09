@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   
   // Configure external domains for images and API calls
   images: {
-    domains: ['n8n.srv869586.hstgr.cloud']
+    domains: ['n8n.srv869586.hstgr.cloud', 'lh3.googleusercontent.com']
   },
   
   // Configure rewrites for API proxy (optional)

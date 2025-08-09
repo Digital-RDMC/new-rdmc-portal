@@ -2,20 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
+import Image from "next/image";
+import { useUser } from "@/contexts/UserContext";
 
-
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
   AlarmClock,
@@ -138,7 +131,7 @@ const Navigation = ({
 
   const [activePath, setActivePath] = useState<any>(null);
   const [sideBarData, setSideBarData] = useState<Data | null>(null);
-
+const { userData } = useUser();
   // This ensures we only render the translated content after the component is mounted
   // to prevent hydration errors
 
@@ -197,11 +190,42 @@ const Navigation = ({
                 <SidebarMenuButton size="lg" asChild>
                   <Link href="#">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-transparent text-primary">
-                      <GalleryVerticalEnd  className="size-4" />
+                      {/* <GalleryVerticalEnd  className="size-4" /> */}
+
+                      {userData?.[0]?.photo ? (
+                        <Image
+                          src={
+                            userData?.[0]?.photo || "/path/to/default/logo.png"
+                          }
+                          alt="Logo"
+                          className="rounded-full object-cover"
+                          width={32}
+                          height={32}
+                        />
+                      ) : (
+                        <svg
+                          className="rounded-full object-cover w-8 h-8 text-gray-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          width={32}
+                          height={32}
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
-                      <span className="font-semibold">{t('rdmcPortal')}</span>
-                      <span className="w-full text-start text-xs">{t('version')}</span>
+                      <span className="font-semibold">
+                        { i18n.language === "ar" ? userData?.[0]?.firstnamear : userData?.[0]?.firstname} {i18n.language === "ar" ? userData?.[0]?.lastnamear : userData?.[0]?.lastname}
+                      </span>
+                      <span className="w-full text-start text-xs">
+                        {userData?.[0]?.position || ""}
+                        {/* {t('version')} */}
+                      </span>
                     </div>
                   </Link>
                 </SidebarMenuButton>
@@ -241,7 +265,6 @@ const Navigation = ({
                           {item.items.map((item) => (
                             <SidebarMenuSubItem key={item.title}>
                               <SidebarMenuSubButton
-                              
                                 asChild
                                 // isActive={item.isActive}
                                 className={
@@ -356,11 +379,13 @@ const Navigation = ({
           </SidebarFooter> */}
           <SidebarRail />
         </Sidebar>
-        <SidebarInset>          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
             <div className="flex items-center gap-2 px-3">
               <SidebarTrigger />
               <Separator orientation="vertical" className="mr-2 h-4" />
-              <Breadcrumb className="">
+              {t("rdmcPortal")}
+              {/* <Breadcrumb className="">
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink href="#">
@@ -372,18 +397,16 @@ const Navigation = ({
                     <BreadcrumbPage>{t(activePath?.title) || ""}</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
-              </Breadcrumb>
+              </Breadcrumb> */}
             </div>
             <div className="flex items-center gap-2 pr-4">
               <ThemeSwitcher />
-               <LanguageSwitcher />
+              <LanguageSwitcher />
             </div>
-            
-            
           </header>
-          <main className=" w-full mx-auto">
+          <main className=" w-full mx-0 ">
             <ScrollArea
-              className="h-[calc(100vh-64px)]  w-full mx-auto"
+              className="h-[calc(100vh-64px)]  w-full mx-0 "
               dir={i18n.language === "ar" ? "rtl" : "ltr"}
             >
               {children}

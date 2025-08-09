@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import LoadingPage from "@/app/(protected)/loading/page"
+
 
 interface Comment {
     id: number;
@@ -13,6 +15,7 @@ interface Comment {
     employee_first_name: string;
     employee_last_name_ar: string;
     employee_first_name_ar: string;
+    employee_photo: string;
 }
 
 interface Like {
@@ -23,6 +26,7 @@ interface Like {
     employee_first_name: string;
     employee_last_name_ar: string;
     employee_first_name_ar: string;
+    employee_photo: string;
 }
 
 interface NewsItem {
@@ -74,6 +78,7 @@ export default function News() {
     }
   };
 
+  
   // Function to get the description based on current language
   const getDescription = (item: NewsItem) => {
     switch (currentLanguage) {
@@ -191,16 +196,36 @@ export default function News() {
     }
   };
 
+
+  const getEmployeePhoto = (comment: Comment | Like) => {
+    console.log('Employee photo:', comment.employee_photo);
+    return comment.employee_photo || null;
+  };
+
   useEffect(() => {
-    fetch('/api/news')
+
+    
+      const vtoken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('vtoken='))
+        ?.split('=')[1];
+
+
+    fetch('/api/news', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ vtoken }),
+    })
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch news');
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch news');
+      }
+      return response.json();
       })
       .then(data => {
-        console.log(data);
+     
         // Ensure data is an array
         if (Array.isArray(data)) {
           setNews(data);
@@ -214,7 +239,17 @@ export default function News() {
         setError(err.message);
       })
       .finally(() => {
+        const startTime = Date.now();
+          const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 3000 - elapsedTime);
+      
+      // Wait for the remaining time before setting loading to false
+      setTimeout(() => {
         setLoading(false);
+      }, remainingTime);
+
+
+
       });
   }, []);
 
@@ -241,16 +276,15 @@ export default function News() {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">News</h1>
-        <p>Loading...</p>
+      <div className=" mx-auto">
+        <LoadingPage title="Loading news..." removeHeader={true} removeLogo={true} />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto p-6">
+      <div className=" mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">News</h1>
         <p className="text-red-500">Error: {error}</p>
       </div>
@@ -258,16 +292,16 @@ export default function News() {
   }
 
   return (
-    <div className="container w-full max-w-xl mx-auto p-6">
+    <div className=" w-full max-w-xl mx-auto p-6">
       {/* <h1 className="text-3xl font-bold mb-6">News</h1>
       <p>This is the news component. Current language: {currentLanguage}</p> */}
       {news.length > 0 ? (
         <div className="space-y-6">
           {news.map((item, index) => (
-            <div key={item.title_en || index} className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+            <div key={item.title_en || index} className="bg-white rounded-lg shadow-md border border-gray-200 overflow-visible relative">
               {/* Header section - like Facebook post header */}
               <div className="flex items-center p-4 border-b border-gray-100">
-                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center me-3">
                   <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
                   </svg>
@@ -342,23 +376,24 @@ export default function News() {
               </div>
 
               {/* Image section */}
-              {getImageSrc(item) && (
+              {/* {getImageSrc(item) && ( */}
                 <div className="relative">
                   <Image
-                    src={getImageSrc(item) as string}
+                    // src={getImageSrc(item) as string}
+                    src="/images/birthday_wishes/1.jpg"
                     width={600}
                     height={400}
                     alt={getTitle(item)}
                     className="w-full h-60 object-cover"
                   />
                 </div>
-              )}
+              {/* )} */}
 
               {/* Interaction section - like Facebook post interactions */}
               <div className="border-t border-gray-100">
                 {/* Likes and comments count */}
                 {((item.likes?.length || 0) > 0 || (item.comments?.length || 0) > 0) && (
-                  <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-50 relative">
+                  <div className="px-4 py-2 text-sm text-gray-500 border-b border-gray-50 relative overflow-visible">
                     <div className="flex justify-between">
                       {(item.likes?.length || 0) > 0 && (
                         <button 
@@ -383,7 +418,10 @@ export default function News() {
                     {showLikes.has(index) && (item.likes?.length || 0) > 0 && (
                       <div 
                         ref={(el) => { likesDropdownRefs.current[index] = el; }}
-                        className="absolute top-full left-4 z-10 bg-white border border-gray-200 rounded-lg shadow-lg p-3 min-w-64 max-w-80"
+                        className="absolute top-full left-4 bg-white border border-gray-200 rounded-lg shadow-xl p-3 min-w-64 max-w-80 z-[9999]"
+                        style={{
+                          marginTop: '8px'
+                        }}
                       >
                         <div className="text-sm font-semibold text-gray-900 mb-2">
                           People who liked this
@@ -391,10 +429,20 @@ export default function News() {
                         <div className="max-h-48 overflow-y-auto">
                           {(item.likes || []).map((like, likeIndex) => (
                             <div key={`${like.created_by}-${likeIndex}`} className="flex items-center py-2 border-b border-gray-100 last:border-b-0">
-                              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-                                </svg>
+                              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0 overflow-hidden">
+                                {getEmployeePhoto(like) ? (
+                                  <Image
+                                    src={getEmployeePhoto(like) as string}
+                                    alt={getEmployeeName(like)}
+                                    width={32}
+                                    height={32}
+                                    className="w-full h-full object-cover rounded-full"
+                                  />
+                                ) : (
+                                  <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+                                  </svg>
+                                )}
                               </div>
                               <div className="flex-1">
                                 <div className="font-medium text-sm text-gray-900">
@@ -457,10 +505,22 @@ export default function News() {
                       <div className="max-h-64 overflow-y-auto">
                         {(item.comments || []).map((comment) => (
                           <div key={comment.id} className="flex p-3 border-b border-gray-100 last:border-b-0">
-                            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                              <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-                              </svg>
+                            <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0 overflow-hidden">
+                             {getEmployeePhoto(comment) ? (
+                               
+                                <Image
+                                  src={getEmployeePhoto(comment) as string}
+                                  alt={getEmployeeName(comment)}
+                                  width={32}
+                                  height={32}
+                                  className="w-full h-full object-cover rounded-full"
+                                />
+                              ):(
+                                <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+                                </svg>
+                              )}
+                            
                             </div>
                             <div className="flex-1">
                               <div className="bg-gray-100 rounded-lg px-3 py-2">
