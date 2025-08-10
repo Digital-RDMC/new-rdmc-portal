@@ -25,8 +25,30 @@ interface Data {
   }[];
 }
 
+// Helper function to safely get cookie value
+function getCookie(name: string): string | null {
+  try {
+    if (typeof document === 'undefined') return null;
+    
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      const cookieValue = parts.pop()?.split(';').shift();
+      return cookieValue || null;
+    }
+    return null;
+  } catch (error) {
+    console.error(`Error getting cookie ${name}:`, error);
+    return null;
+  }
+}
+
 // Protected content component that uses the user context
-function ProtectedContent({ children }: { children: React.ReactNode }) {
+function ProtectedContent({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const { t } = useTranslation();
   const { userData, setUserData, isLoading, setIsLoading } = useUser();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -50,45 +72,89 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
       const startTime = Date.now();
       const minLoadingTime = 5000; // 5 seconds for testing
 
-      const vtoken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("vtoken="))
-        ?.split("=")[1];
+      try {
+        // Get the vtoken from cookies using the helper function
+        const vtoken = getCookie('vtoken');
 
-      const tokenVerification = await fetch(
-        "https://n8n.srv869586.hstgr.cloud/webhook/logged",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${vtoken}`,
-          },
-        }
-      );
-
-      if (!vtoken || !tokenVerification.ok) {
-        console.error("No valid vtoken found or token verification failed");
-        setIsAuthenticated(false);
-        setUserData(null); // Clear user data
-        setIsLoading(false);
-        return;
-      } else {
-        const data = await tokenVerification.json();
-        // console.log('vtoken/ is valid:', data[0]);
-
-        // Store the employee data in context
-        setUserData(data);
-        setIsAuthenticated(!!vtoken);
-
-        // Calculate remaining time to wait
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-
-        // Wait for the remaining time before setting loading to false
-        setTimeout(() => {
+        // Check if vtoken exists first
+        if (!vtoken) {
+          // console.warn("No vtoken found in cookies");
+          setIsAuthenticated(false);
+          setUserData(null);
           setIsLoading(false);
-        }, remainingTime);
+          return;
+        }
+
+        // console.log("Found vtoken, verifying...");
+
+        // Verify token with the server
+        const tokenVerification = await fetch(
+          "https://n8n.srv869586.hstgr.cloud/webhook/logged",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${vtoken}`,
+            },
+          }
+        );
+
+        if (!tokenVerification.ok) {
+          console.error(`Token verification failed with status: ${tokenVerification.status} ${tokenVerification.statusText}`);
+          setIsAuthenticated(false);
+          setUserData(null);
+          setIsLoading(false);
+          return;
+        } else {
+          // Check if response has content before parsing JSON
+          const responseText = await tokenVerification.text();
+          
+          if (!responseText || responseText.trim() === '') {
+            console.error("Empty response from token verification endpoint");
+            setIsAuthenticated(false);
+            setUserData(null);
+            setIsLoading(false);
+            return;
+          }
+
+          try {
+            const data = JSON.parse(responseText);
+            console.log('Token verification successful. User data:', data[0]);
+
+            // Store the employee data in context
+            setUserData(data);
+            setIsAuthenticated(true);
+
+            // Calculate remaining time to wait
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+
+            // Wait for the remaining time before setting loading to false
+            setTimeout(() => {
+              setIsLoading(false);
+            }, remainingTime);
+          } catch (jsonError) {
+            console.error("Failed to parse JSON response from token verification:", jsonError);
+            console.error("Response text received:", responseText);
+            setIsAuthenticated(false);
+            setUserData(null);
+            setIsLoading(false);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error("Error during token verification process:", error);
+        
+        // Check if it's a network error
+        if (error instanceof TypeError && error.message.includes('fetch')) {
+          console.error("Network error: Unable to reach authentication server");
+        }
+        
+        setIsAuthenticated(false);
+        setUserData(null);
+        setIsLoading(false);
       }
+
     };
 
     // Check initially
@@ -96,15 +162,25 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
 
     // Set up an interval to check for cookie changes every 5 seconds
     const interval = setInterval(() => {
-      // For interval checks, don't add delay - just update immediately
-      const vtoken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("vtoken="))
-        ?.split("=")[1];
+      try {
+        // For interval checks, don't add delay - just update immediately
+        const vtoken = getCookie('vtoken');
 
-      setIsAuthenticated(!!vtoken);
-      if (!vtoken) {
-        setUserData(null); // Clear user data when token is gone
+        const wasAuthenticated = isAuthenticated;
+        const currentlyAuthenticated = !!vtoken;
+
+        // Only update if authentication status changed
+        if (wasAuthenticated !== currentlyAuthenticated) {
+          console.log(`Authentication status changed: ${wasAuthenticated} -> ${currentlyAuthenticated}`);
+          setIsAuthenticated(currentlyAuthenticated);
+          
+          if (!vtoken) {
+            console.log("Token removed, clearing user data");
+            setUserData(null); // Clear user data when token is gone
+          }
+        }
+      } catch (error) {
+        console.error("Error in token check interval:", error);
       }
     }, 5000);
 
@@ -136,6 +212,11 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
                 {
                   title: t("ebusinessCard"),
                   url: "/ebusinesscard",
+                  icon: "InfoIcon",
+                },
+                {
+                  title: "Debug Auth",
+                  url: "/debug-auth",
                   icon: "InfoIcon",
                 },
 
@@ -194,9 +275,11 @@ function ProtectedContent({ children }: { children: React.ReactNode }) {
       {!isClient || isLoading ? (
         // Show loading page during SSR, initial hydration, and authentication check
         <LoadingPage />
-      ) : isAuthenticated ? (
+      ) : isAuthenticated && userData ? (
+        // Only show navigation and children if user is authenticated AND userData is available
         <Navigation data={data}>{children}</Navigation>
       ) : (
+        // Show login page if not authenticated OR userData is not available
         <LoginPage />
       )}
     </div>

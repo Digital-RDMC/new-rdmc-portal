@@ -107,17 +107,17 @@ export default function News() {
 
   
 
-  const getImageSrc = (item: NewsItem) => {
-    switch (currentLanguage) {
-      case 'ar':
-        return item.image_ar || item.image_en || null;
-      case 'fr':
-        return item.image_fr || item.image_en || null;
-      case 'en':
-      default:
-        return item.image_en || null;
-    }
-  };
+  // const getImageSrc = (item: NewsItem) => {
+  //   switch (currentLanguage) {
+  //     case 'ar':
+  //       return item.image_ar || item.image_en || null;
+  //     case 'fr':
+  //       return item.image_fr || item.image_en || null;
+  //     case 'en':
+  //     default:
+  //       return item.image_en || null;
+  //   }
+  // };
 
   // Function to toggle expanded state for a specific item
   const toggleExpanded = (index: number) => {

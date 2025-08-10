@@ -4,7 +4,7 @@ import "@/i18n";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -24,7 +24,7 @@ type LoginMethod = 'email' | 'phone' | 'employeeCode' | 'username';
 type LoginState = 'login' | 'otp' | 'warning';
 
 export default function Login() {
-  const router = useRouter();
+  // const router = useRouter();
   const { t } = useTranslation();
   const [selectedMethod, setSelectedMethod] = useState<LoginMethod>('email');
   const [loginState, setLoginState] = useState<LoginState>('login');
@@ -137,7 +137,8 @@ export default function Login() {
           // console.log('OTP verification successful and token saved:', result.token);
           // alert('Login successful! Redirecting to dashboard...');
           // Handle successful login - redirect to dashboard
-          router.push('/');
+            window.location.reload();
+
         } else {
           console.error('OTP verification failed: No token received');
           setErrorMessage('Verification failed: No token received');
