@@ -28,12 +28,12 @@ interface Data {
 // Helper function to safely get cookie value
 function getCookie(name: string): string | null {
   try {
-    if (typeof document === 'undefined') return null;
-    
+    if (typeof document === "undefined") return null;
+
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
-      const cookieValue = parts.pop()?.split(';').shift();
+      const cookieValue = parts.pop()?.split(";").shift();
       return cookieValue || null;
     }
     return null;
@@ -50,17 +50,29 @@ function ProtectedContent({
   children: React.ReactNode;
 }>) {
   const { t } = useTranslation();
-  const { userData, setUserData, isLoading, setIsLoading } = useUser();
+  const { userData, setUserData, isLoading, setIsLoading, vtoken, setVtoken } =
+    useUser();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   // userData is now available and will be populated when user is authenticated
   // This can be accessed by any child component using useUser() hook
-  console.log("Current user data:", userData); // Log for debugging purposes
+  // console.log("Current user data:", userData); // Log for debugging purposes
 
   // Check for client-side hydration
   useEffect(() => {
     setIsClient(true);
+    // Check for vtoken cookie on component mount
+    const vtokenInit = getCookie("vtoken");
+    console.log("Initial vtoken from cookies:", vtokenInit);
+    if (vtokenInit) {
+      setVtoken(vtokenInit);
+    } else {
+      setIsAuthenticated(false);
+      setUserData(null);
+      setIsLoading(false);
+      return;
+    }
   }, []);
 
   // Check for vtoken cookie on component mount and when cookies change
@@ -73,21 +85,11 @@ function ProtectedContent({
       const minLoadingTime = 5000; // 5 seconds for testing
 
       try {
-        // Get the vtoken from cookies using the helper function
-        const vtoken = getCookie('vtoken');
-
-        // Check if vtoken exists first
-        if (!vtoken) {
-          // console.warn("No vtoken found in cookies");
-          setIsAuthenticated(false);
-          setUserData(null);
-          setIsLoading(false);
-          return;
-        }
-
+        // console.log("vtoken2:", vtoken);
         // console.log("Found vtoken, verifying...");
 
         // Verify token with the server
+
         const tokenVerification = await fetch(
           "https://n8n.srv869586.hstgr.cloud/webhook/logged",
           {
@@ -100,29 +102,34 @@ function ProtectedContent({
         );
 
         if (!tokenVerification.ok) {
-          console.error(`Token verification failed with status: ${tokenVerification.status} ${tokenVerification.statusText}`);
           setIsAuthenticated(false);
           setUserData(null);
           setIsLoading(false);
           return;
         } else {
+          // console.log("vtoken3:", vtoken);
+
           // Check if response has content before parsing JSON
           const responseText = await tokenVerification.text();
-          
-          if (!responseText || responseText.trim() === '') {
+
+          if (!responseText || responseText.trim() === "") {
             console.error("Empty response from token verification endpoint");
             setIsAuthenticated(false);
             setUserData(null);
+
             setIsLoading(false);
             return;
           }
+          // console.log("vtoken4:", vtoken);
 
           try {
             const data = JSON.parse(responseText);
-            console.log('Token verification successful. User data:', data[0]);
+            // console.log('Token verification successful. User data:', data[0]);
 
             // Store the employee data in context
+            // console.log("Storing user data in context:", {...data, vtoken});
             setUserData(data);
+            setVtoken(vtoken);
             setIsAuthenticated(true);
 
             // Calculate remaining time to wait
@@ -134,7 +141,10 @@ function ProtectedContent({
               setIsLoading(false);
             }, remainingTime);
           } catch (jsonError) {
-            console.error("Failed to parse JSON response from token verification:", jsonError);
+            console.error(
+              "Failed to parse JSON response from token verification:",
+              jsonError
+            );
             console.error("Response text received:", responseText);
             setIsAuthenticated(false);
             setUserData(null);
@@ -144,17 +154,16 @@ function ProtectedContent({
         }
       } catch (error) {
         console.error("Error during token verification process:", error);
-        
+
         // Check if it's a network error
-        if (error instanceof TypeError && error.message.includes('fetch')) {
+        if (error instanceof TypeError && error.message.includes("fetch")) {
           console.error("Network error: Unable to reach authentication server");
         }
-        
+
         setIsAuthenticated(false);
         setUserData(null);
         setIsLoading(false);
       }
-
     };
 
     // Check initially
@@ -164,16 +173,16 @@ function ProtectedContent({
     const interval = setInterval(() => {
       try {
         // For interval checks, don't add delay - just update immediately
-        const vtoken = getCookie('vtoken');
+        // const vtoken = getCookie('vtoken');
 
         const wasAuthenticated = isAuthenticated;
         const currentlyAuthenticated = !!vtoken;
 
         // Only update if authentication status changed
         if (wasAuthenticated !== currentlyAuthenticated) {
-          console.log(`Authentication status changed: ${wasAuthenticated} -> ${currentlyAuthenticated}`);
+          // console.log(`Authentication status changed: ${wasAuthenticated} -> ${currentlyAuthenticated}`);
           setIsAuthenticated(currentlyAuthenticated);
-          
+
           if (!vtoken) {
             console.log("Token removed, clearing user data");
             setUserData(null); // Clear user data when token is gone
@@ -205,26 +214,18 @@ function ProtectedContent({
                 },
 
                 {
-                  title: t("about"),
-                  url: "/about",
-                  icon: "InfoIcon",
-                },
-                {
-                  title: t("ebusinessCard"),
-                  url: "/ebusinesscard",
-                  icon: "InfoIcon",
-                },
-                {
-                  title: "Debug Auth",
-                  url: "/debug-auth",
-                  icon: "InfoIcon",
+                  title: t("medical"),
+                  url: "/medical",
+                  icon: "HeartPulseIcon", // Medical-related icon
                 },
 
-                ...(admin
-                  ? [
-                     
-                    ]
-                  : []),
+                // {
+                //   title: t("about"),
+                //   url: "/about",
+                //   icon: "InfoIcon",
+                // },
+
+                ...(admin ? [] : []),
               ]
             : [
                 {
@@ -247,22 +248,156 @@ function ProtectedContent({
         ],
       },
 
+      {
+        title: t("communication"),
+        url: "#",
+        items: [
+          // Only show login if user is not authenticated
+          ...(isAuthenticated
+            ? [
+                {
+                  title: t("newsletter"),
+                  url: "/newsletter",
+                  icon: "HomeIcon",
+                },
+                {
+                  title: t("ebusinessCard"),
+                  url: "/ebusinesscard",
+                  icon: "InfoIcon",
+                },
+                {
+                  title: t("trainingcenter"),
+                  url: "/trainingcenter",
+                  icon: "InfoIcon",
+                  disabled: true,
+                },
+              ]
+            : []),
+        ],
+      },
+ {
+        title: t("humanresources"),
+        url: "#",
+        items: [
+          // Only show login if user is not authenticated
+          ...(isAuthenticated
+            ? [
+                {
+                  title: t("hrdocuments"),
+                  url: "/hrdocuments",
+                  icon: "HomeIcon",
+                   disabled: true,
+                },
+                {
+                  title: t("hrservicedesk"),
+                  url: `https://hr-helpdesk-final-tryon.vercel.app/login?token=${vtoken}`,
+                  icon: "InfoIcon",
+                  target: true,
+                },
+                {
+                  title: t("kelio"),
+                  url: "https://attendance.mobilitycairo.com/open/login",
+                  target: true,
+                  icon: "InfoIcon",
+                  
+                }, {
+                  title: t("talentsoft"),
+                  url: "https://ratpdev.talent-soft.com/",
+                  icon: "InfoIcon",
+                  target: true,
+                }, {
+                  title: t("payslip"),
+                  url: "https://hrservices.mobilitycairo.com/selfservice/",
+                  icon: "InfoIcon",
+                  target: true,
+                },
+              ]
+            : []),
+        ],
+      },
+ {
+        title: t("documents"),
+        url: "#",
+        items: [
+          // Only show login if user is not authenticated
+          ...(isAuthenticated
+            ? [
+                {
+                  title: t("policies"),
+                  url: "/hrdocuments",
+                  icon: "HomeIcon",
+                   disabled: true,
+                },
+                {
+                  title: t("templates"),
+                  url: "/hrservicedesk",
+                  icon: "InfoIcon",
+                   disabled: true,
+                },
+                {
+                  title: t("compliance"),
+                  url: "/kelio",
+                  icon: "InfoIcon",
+                  disabled: true,
+                }, 
+              ]
+            : []),
+        ],
+      },
+
+       {
+        title: t("digital"),
+        url: "#",
+        items: [
+          // Only show login if user is not authenticated
+          ...(isAuthenticated
+            ? [
+                {
+                  title: t("userguide"),
+                  url: "/hrdocuments",
+                  icon: "HomeIcon",
+                   disabled: true,
+                },
+                {
+                  title: t("digitalservicedesk"),
+                  url: "/hrservicedesk",
+                  icon: "InfoIcon",
+                   disabled: true,
+                },
+                {
+                  title: t("compliance"),
+                  url: "/kelio",
+                  icon: "InfoIcon",
+                  disabled: true,
+                }, 
+              ]
+            : []),
+        ],
+      },
+
+
+
       ...(admin
         ? [
             {
               title: t("adiminPanel"),
               url: "#",
               items: [
-                 {
-                        title: t("updateemps"),
-                        url: "/updateemps",
-                        icon: "InfoIcon",
-                      },
-                      {
-                        title: t("usersmanagement"),
-                        url: "/usersmanagement",
-                        icon: "UsersIcon",
-                      }
+                {
+                  title: "Debug Auth",
+                  url: "/debug-auth",
+                  icon: "InfoIcon",
+                },
+                {
+                  title: t("updateemps"),
+                  url: "/updateemps",
+                  icon: "InfoIcon",
+                },
+                {
+                  title: t("usersmanagement"),
+                  url: "/usersmanagement",
+                  icon: "UsersIcon",
+                },
               ],
             },
           ]

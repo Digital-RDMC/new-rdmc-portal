@@ -26,6 +26,7 @@ export interface UserData {
   nationality: string;
   position: string;
   photo: string;
+
 }
 
 // Define the context type
@@ -34,6 +35,8 @@ interface UserContextType {
   setUserData: (data: UserData[] | null) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  vtoken: string;
+  setVtoken: (token: string) => void; 
 }
 
 // Create the context
@@ -43,9 +46,10 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [userData, setUserData] = useState<UserData[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [vtoken, setVtoken] = useState<string>("");
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, isLoading, setIsLoading }}>
+    <UserContext.Provider value={{ userData, setUserData, isLoading, setIsLoading, vtoken, setVtoken }}>
       {children}
     </UserContext.Provider>
   );

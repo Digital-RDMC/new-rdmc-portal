@@ -5,6 +5,7 @@ const enLocale = {
     welcome: 'Welcome to our application',
     about: 'About Us',
     home: 'Home',
+    Home: 'Home',
     updateemps: 'Update Employees',
     usersmanagement: 'Users Management',
     changeLanguage: 'Change Language',
@@ -76,7 +77,27 @@ const enLocale = {
     contactSupport: 'Contact Support',
     ebusinessCard: 'E-Business Card',
     adiminPanel: 'Admin Panel',
-     homepage: {
+    communication: 'Communication',
+    humanresources: 'Human Resources',
+    documents: 'Documents',
+    digital: 'Digital',
+    medical: 'Medical',
+    newsletter: 'Newsletter',
+    trainingcenter: 'Training Center',
+    hrdocuments: 'HR Documents',
+    hrservicedesk: 'HR Service Desk',
+    kelio: 'Kelio',
+    talentsoft: 'Talent soft',
+    payslip: 'Pay slip',
+    policies: 'Policies',
+    templates: 'Templates',
+    compliance: 'Compliance',
+    userguide: 'User Guide',
+    digitalservicedesk: 'Digital Service Desk',
+
+
+
+    homepage: {
       HOME: "HOME",
 PAGE: "PAGE",
 AboutPortal: "About Portal",
@@ -93,6 +114,8 @@ Socity: "Socity",
 Wecare: "We care",
 Currently12stations22trains20000passengerday: "Currently<br/>12 stations<br/>22 trains<br/>20,000 passenger / day",
 CapitalTrain: "Capital Train (LRT)",
+medical: "Medical Services",
+loading: "Loading",
 
     },
   }

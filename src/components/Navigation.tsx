@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { usePathname } from "next/navigation";
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
@@ -36,6 +36,7 @@ import {
   UserCircleIcon,
   Users2Icon,
   UsersIcon,
+  HeartPulseIcon,
   type LucideIcon,
 
 } from "lucide-react";
@@ -66,6 +67,7 @@ const IconComponent = ({ iconName, ...props }: { iconName: string; [key: string]
   const iconMap: Record<string, LucideIcon> = {
     HomeIcon: HomeIcon,
 InfoIcon: InfoIcon,
+HeartPulseIcon: HeartPulseIcon,
     GalleryVerticalEnd: GalleryVerticalEnd,
     BellIcon: BellIcon,
     CreditCardIcon: CreditCardIcon,
@@ -245,8 +247,8 @@ const { userData } = useUser();
               <SidebarMenu>
                 {sideBarData &&
                   sideBarData.navMain.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
+                    <SidebarMenuItem  key={item.title}>
+                      <SidebarMenuButton  asChild>
                         <Link href={item.url} className="font-medium">
                           {/* Show plain text during SSR, and translated text only after mounting */}
                           {item.icon && (
@@ -265,6 +267,8 @@ const { userData } = useUser();
                           {item.items.map((item) => (
                             <SidebarMenuSubItem key={item.title}>
                               <SidebarMenuSubButton
+                              
+                              
                                 asChild
                                 // isActive={item.isActive}
                                 className={
@@ -274,8 +278,9 @@ const { userData } = useUser();
                                 }
                               >
                                 <Link
-                                  href={item.url}
-                                  className="flex items-center gap-2"
+                                  href={item.disabled ? "#" : item.url}
+                                  target={item.target ? "_blank": ""}
+                                  className={`flex items-center gap-2 ${item.disabled ? "pointer-events-none opacity-50" : ""}`}
                                 >
                                   {item.icon && (
                                     <IconComponent

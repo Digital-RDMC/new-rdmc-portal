@@ -5,6 +5,7 @@ const arLocale = {
     welcome: 'مرحباً بك في تطبيقنا',
     about: 'من نحن',
     home: 'الرئيسية',
+    Home: 'الرئيسية',
     updateemps: 'تحديث الموظفين',
     changeLanguage: 'تغيير اللغة',
     english: 'الإنجليزية',
@@ -76,7 +77,26 @@ const arLocale = {
     contactSupport: 'اتصل بالدعم الفني',
     ebusinessCard: 'البطاقة التجارية الإلكترونية',
     adiminPanel: 'لوحة الإدارة',
-     homepage: {
+    communication: 'الاتصالات',
+    humanresources: 'الموارد البشرية',
+    documents: 'المستندات',
+    digital: 'رقمي',
+    medical: 'الخدمات الطبية',
+    newsletter: 'النشرة الإخبارية',
+    
+    trainingcenter: 'مركز التدريب',
+    hrdocuments: 'مستندات الموارد البشرية',
+    hrservicedesk: 'خدمة دعم الموارد البشرية',
+    kelio: 'كيليو',
+    talentsoft: 'تالنت سوفت',
+    payslip: 'قسيمة الراتب',
+    policies: 'السياسات',
+    templates: 'القوالب',
+    compliance: 'الامتثال',
+    userguide: 'دليل المستخدم',
+    digitalservicedesk: 'خدمة الدعم الرقمي',
+   
+    homepage: {
       HOME: "الرئيسية",
       PAGE: "الصفحة",
       AboutPortal: "حول البوابة",
@@ -87,6 +107,8 @@ const arLocale = {
       Wecare: "نحن نهتم",
       Currently12stations22trains20000passengerday: "حالياً<br/>12 محطة<br/>22 قطار<br/>20,000 راكب / يوم",
       CapitalTrain: "قطار العاصمة (LRT)",
+      medical: "الخدمات الطبية",
+      loading: "جاري التحميل",
     },
   }
 };
