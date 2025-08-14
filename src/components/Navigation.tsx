@@ -116,6 +116,7 @@ interface Data {
       target?: boolean;
       url: string;
       isActive?: boolean;
+      hidden?: boolean; // Add hidden property to control visibility
     }[];
   }[];
 }
@@ -296,8 +297,17 @@ const { userData } = useUser();
                       </SidebarMenuButton>
                       {item.items?.length ? (
                         <SidebarMenuSub>
-                          {" "}
-                          {item.items.map((item) => (
+               
+                          {item.items.map((item) => 
+                          
+                          
+                          
+                          
+                          
+                          
+                          ( !item.hidden && 
+
+
                             <SidebarMenuSubItem key={item.title}>
                               <SidebarMenuSubButton
                               
@@ -327,7 +337,8 @@ const { userData } = useUser();
                                 </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
-                          ))}
+                          ) 
+                          )}
                         </SidebarMenuSub>
                       ) : null}
                     </SidebarMenuItem>

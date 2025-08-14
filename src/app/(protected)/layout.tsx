@@ -19,6 +19,7 @@ interface Data {
       title: string;
       icon?: string;
       disabled?: boolean;
+      hidden?: boolean;
       target?: boolean;
       url: string;
       isActive?: boolean;
@@ -200,6 +201,7 @@ function ProtectedContent({
   }, [isClient, setUserData, setIsLoading]);
 
   const admin = userData?.[0]?.position === "Head of Digital" || false; // Check if user has admin access
+  const pic =  userData?.[0]?.position === "Head of Digital" || userData?.[0]?.position === "Station Master" || userData?.[0]?.position === "Head of PTW" ? true : false; // Check if user has pic access
 
   const data: Data = {
     navMain: [
@@ -300,7 +302,7 @@ function ProtectedContent({
                 },
                 {
                   title: t("hrservicedesk"),
-                  url: `https://hr-helpdesk-final-tryon.vercel.app/login?token=${vtoken}`,
+                  url: `https://hr-helpdesk.vercel.app/login?token=${vtoken}`,
                   icon: "InfoIcon",
                   target: true,
                 },
@@ -325,6 +327,34 @@ function ProtectedContent({
             : []),
         ],
       },
+
+      {
+        title: t("apps"),
+        url: "#",
+        items: [
+          {
+            title: t("pic"),
+            url: "/pic",
+            icon: "InfoIcon",
+            hidden: !pic,
+          },
+          {
+            title: t("driver swap"),
+            url: "/video",
+            icon: "InfoIcon",
+            disabled: !pic,
+          },
+        ],
+       
+      },
+
+
+
+
+
+
+
+
  {
         title: t("documents"),
         url: "#",
