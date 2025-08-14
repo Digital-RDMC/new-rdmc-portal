@@ -247,7 +247,7 @@ export default function DataTableDemo() {
       },
     },
   ];
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 //   const [auth, setAuth] = useState<boolean>(false);
 //   const [uid, setUID] = useState<string | null>(null);
   // const router = useRouter();
