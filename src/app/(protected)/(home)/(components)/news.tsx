@@ -52,7 +52,7 @@ interface NewsItem {
 
 
 export default function News() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language; // This gets the current language
   
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -69,12 +69,12 @@ export default function News() {
   const getTitle = (item: NewsItem) => {
     switch (currentLanguage) {
       case 'ar':
-        return item.title_ar || item.title_en || 'No title';
+        return item.title_ar || item.title_en || t('noTitle');
       case 'fr':
-        return item.title_fr || item.title_en || 'No title';
+        return item.title_fr || item.title_en || t('noTitle');
       case 'en':
       default:
-        return item.title_en || 'No title';
+        return item.title_en || t('noTitle');
     }
   };
 
@@ -83,12 +83,12 @@ export default function News() {
   const getDescription = (item: NewsItem) => {
     switch (currentLanguage) {
       case 'ar':
-        return item.des_ar || item.des_en || 'No description';
+        return item.des_ar || item.des_en || t('noDescription');
       case 'fr':
-        return item.des_fr || item.des_en || 'No description';
+        return item.des_fr || item.des_en || t('noDescription');
       case 'en':
       default:
-        return item.des_en || 'No description';
+        return item.des_en || t('noDescription');
     }
   };
 
@@ -220,7 +220,7 @@ export default function News() {
     })
       .then(response => {
       if (!response.ok) {
-        throw new Error('Failed to fetch news');
+        throw new Error(t('failedToFetchNews'));
       }
       return response.json();
       })
@@ -231,7 +231,7 @@ export default function News() {
           setNews(data);
         } else {
           console.error('Expected array but got:', typeof data);
-          setError('Invalid data format received');
+          setError(t('invalidDataFormat'));
         }
       })
       .catch(err => {
@@ -277,7 +277,7 @@ export default function News() {
   if (loading) {
     return (
       <div className=" mx-auto">
-        <LoadingPage title="Loading news..." removeHeader={true} removeLogo={true} />
+        <LoadingPage title={t('loadingNews')} removeHeader={true} removeLogo={true} />
       </div>
     );
   }
@@ -285,8 +285,8 @@ export default function News() {
   if (error) {
     return (
       <div className=" mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-6">News</h1>
-        <p className="text-red-500">Error: {error}</p>
+        <h1 className="text-3xl font-bold mb-6">{t('news')}</h1>
+        <p className="text-red-500">{t('error')}: {error}</p>
       </div>
     );
   }
@@ -307,7 +307,7 @@ export default function News() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 text-sm">RDMC Portal</h3>
+                  <h3 className="font-semibold text-gray-900 text-sm">{t('rdmcPortal')}</h3>
                   <div className="flex items-center text-xs text-gray-500">
                     <span>
                       {new Date(item.release_date).toLocaleDateString(currentLanguage, {
@@ -347,7 +347,7 @@ export default function News() {
                           onClick={() => toggleExpanded(index)}
                           className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
                         >
-                          See more
+                          {t('seeMore')}
                         </button>
                       </div>
                     ) : (
@@ -360,7 +360,7 @@ export default function News() {
                           onClick={() => toggleExpanded(index)}
                           className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
                         >
-                          See less
+                          {t('seeLess')}
                         </button>
                       </div>
                     )}
@@ -401,7 +401,7 @@ export default function News() {
                           onClick={() => toggleLikes(index)}
                         >
                           <span className="text-blue-600">👍</span>
-                          <span>{item.likes?.length} {(item.likes?.length || 0) === 1 ? 'like' : 'likes'}</span>
+                          <span>{item.likes?.length} {(item.likes?.length || 0) === 1 ? t('like') : t('likes')}</span>
                         </button>
                       )}
                       {(item.comments?.length || 0) > 0 && (
@@ -409,7 +409,7 @@ export default function News() {
                           className="cursor-pointer hover:underline"
                           onClick={() => toggleComments(index)}
                         >
-                          {item.comments?.length} {(item.comments?.length || 0) === 1 ? 'comment' : 'comments'}
+                          {item.comments?.length} {(item.comments?.length || 0) === 1 ? t('comment') : t('comments')}
                         </span>
                       )}
                     </div>
@@ -424,7 +424,7 @@ export default function News() {
                         }}
                       >
                         <div className="text-sm font-semibold text-gray-900 mb-2">
-                          People who liked this
+                          {t('peopleWhoLikedThis')}
                         </div>
                         <div className="max-h-48 overflow-y-auto">
                           {(item.likes || []).map((like, likeIndex) => (
@@ -477,7 +477,7 @@ export default function News() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
-                      <span>Like</span>
+                      <span>{t('like')}</span>
                     </button>
                     <button 
                       className="flex items-center space-x-2 hover:text-blue-600 transition-colors flex-1 justify-center py-2"
@@ -486,13 +486,13 @@ export default function News() {
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                       </svg>
-                      <span>Comment</span>
+                      <span>{t('comment')}</span>
                     </button>
                     <button className="flex items-center space-x-2 hover:text-blue-600 transition-colors flex-1 justify-center py-2">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                       </svg>
-                      <span>Share</span>
+                      <span>{t('share')}</span>
                     </button>
                   </div>
                 </div>
@@ -555,7 +555,7 @@ export default function News() {
                       <div className="flex-1 flex">
                         <input
                           type="text"
-                          placeholder="Write a comment..."
+                          placeholder={t('writeComment')}
                           value={newComment[index] || ''}
                           onChange={(e) => setNewComment(prev => ({
                             ...prev,
@@ -587,7 +587,7 @@ export default function News() {
           ))}
         </div>
       ) : (
-        <p>No news available.</p>
+        <p>{t('noNewsAvailable')}</p>
       )}
     </div>
   );

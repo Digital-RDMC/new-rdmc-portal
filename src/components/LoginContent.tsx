@@ -18,10 +18,11 @@ import { OTPVerification } from "@/components/otp-verification";
 import { LoginWarning } from "@/components/login-warning";
 import ThemeSwitcher from "@/components/ThemeSwitcher2";
 import  LanguageSwitcher  from "@/components/LanguageSwitcher2";
+import { Eye, EyeOff } from "lucide-react";
 import Image from 'next/image';
 
 type LoginMethod = 'email' | 'phone' | 'employeeCode' | 'username';
-type LoginState = 'login' | 'otp' | 'warning';
+type LoginState = 'login' | 'otp' | 'warning' | 'password';
 
 export default function Login() {
   // const router = useRouter();
@@ -32,7 +33,10 @@ export default function Login() {
   const [userIdentifier, setUserIdentifier] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [basicAuthToken, setBasicAuthToken] = useState('');
-  
+  // const [isPassword, setIsPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -75,15 +79,22 @@ export default function Login() {
 
       if (response.ok) {
         const result = await response.json();
-        if (result.token) {
-          console.log('Login successful, token received:', result.token);
+
+        console.log('Login response:', result);
+        if (result.ispassword ) {
+            // setIsPassword(true);
+             setBasicAuthToken(result.token);
+            setLoginState('password');
+          } else if (result.token && !result.ispassword) {
+          // console.log('Login successful, token received:', result.token);
           setBasicAuthToken(result.token);
-          setLoginState('otp');
-        } else {
-          console.error('Login failed:', result.error || 'No token received');
-          setErrorMessage(result.error || 'Authentication failed');
-          setLoginState('warning');
-        }
+          
+            setLoginState('otp');
+          } else {
+            console.error('Login failed:', result.error || 'No token received');
+            setErrorMessage(result.error || 'Authentication failed');
+            setLoginState('warning');
+          }
       } else {
         const result = await response.json().catch(() => ({ error: 'Unknown error' }));
         console.error('Login failed:', result.error);
@@ -187,6 +198,54 @@ export default function Login() {
     }
   };
 
+  const handlePasswordVerify = async (passwordInput: string) => {
+    setIsLoading(true);
+    try {
+      console.log('Verifying password for:', userIdentifier);
+
+      console.log("basicAuthToken:", basicAuthToken);
+
+      const response = await fetch('https://n8n.srv869586.hstgr.cloud/webhook/verify-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${basicAuthToken}`,
+        },
+        body: JSON.stringify({
+          password: passwordInput
+        })
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        if (result.token) {
+          const expirationTime = new Date();
+          expirationTime.setMinutes(expirationTime.getMinutes() + 30);
+          
+          document.cookie = `vtoken=${result.token}; expires=${expirationTime.toUTCString()}; path=/; secure; samesite=strict`;
+          
+          console.log('Password verification successful and token saved:', result.token);
+          window.location.reload();
+        } else {
+          console.error('Password verification failed: No token received');
+          setErrorMessage('Authentication failed: No token received');
+          setLoginState('warning');
+        }
+      } else {
+        const result = await response.json().catch(() => ({ error: 'Password verification failed' }));
+        setErrorMessage(result.error || 'Invalid password');
+        setLoginState('warning');
+      }
+    } catch (error) {
+      console.error('Password verification error:', error);
+      setErrorMessage('Failed to verify password. Please try again.');
+      setLoginState('warning');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleTryAgain = () => {
     setLoginState('login');
     setErrorMessage('');
@@ -204,7 +263,7 @@ export default function Login() {
         return {
           label: t('phoneNumber'),
           type: 'tel',
-          placeholder: '+1 (555) 000-0000',
+          placeholder: '0115550000',
           id: 'phone'
         };
       case 'employeeCode':
@@ -243,6 +302,120 @@ export default function Login() {
         identifier={userIdentifier}
         loginMethod={selectedMethod}
       />
+    );
+  }
+
+  if (loginState === 'password') {
+    const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      
+      if (password.trim()) {
+
+        console.log('Submitting password for verification:', password);
+        await handlePasswordVerify(password);
+      }
+    };
+
+    return (
+      <div className="flex  items-center justify-center p-4">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 opacity-80 dark:opacity-50">
+            <Image 
+              src="/images/worldmap.svg" 
+              alt="" 
+              fill
+              className="object-cover object-center"
+              onError={(e) => {
+                console.log('Worldmap image failed to load');
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>  
+          <div className="absolute inset-0 opacity-80 dark:opacity-50">
+            <Image 
+              src="/images/shades.svg" 
+              alt="shades" 
+              fill
+              className="object-cover object-center"
+              onError={(e) => {
+                console.log('Shades image failed to load');
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          </div>
+        </div>
+        <div className="w-full max-w-md z-40">
+          <Card className="bg-white/50 dark:bg-gray-800/80 shadow-lg">
+            <CardHeader className="text-center">
+              <CardTitle className="text-xl">
+                <div className="flex flex-row justify-center items-center gap-2 pb-5">
+                  <LanguageSwitcher />  <ThemeSwitcher />
+                </div>
+                <div className="mb-6 flex justify-center">
+                  <Image 
+                    src="/images/logo.png" 
+                    alt="RATP Dev Mobility Cairo" 
+                    width={200}
+                    height={48}
+                    className="h-12 w-auto"
+                    style={{ maxWidth: '200px' }}
+                  />
+                </div>
+                {t('enterYourPassword')}
+              </CardTitle>
+              <CardDescription>
+                {t('pleaseEnterPasswordToContinue')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handlePasswordSubmit}>
+                <div className="grid gap-6">
+                  <div className="grid gap-3">
+                    <Label htmlFor="password">{t('password')} *</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder={t('enterYourPasswordPlaceholder')}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        disabled={isLoading}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute end-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  <Button type="submit" className="w-full" disabled={isLoading || !password.trim()}>
+                    {isLoading ? t('verifying') : t('login')}
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleGoBack}
+                    disabled={isLoading}
+                  >
+                    {t('backToLogin')}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     );
   }
 

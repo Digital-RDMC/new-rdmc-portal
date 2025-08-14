@@ -2,9 +2,10 @@
 import Navigation from "@/components/Navigation";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import { UserProvider, useUser } from "@/contexts/UserContext";
+import { UserProvider, useUser , UserData} from "@/contexts/UserContext";
 
 import LoginPage from "@/app/(protected)/login/page";
+import AddPassword from "@/app/(protected)/login/add_password"; 
 import LoadingPage from "@/components/LoadingPage";
 // import LanguageSwitcher from "@/app/components/LanguageSwitcher";
 
@@ -42,6 +43,8 @@ function getCookie(name: string): string | null {
     return null;
   }
 }
+
+
 
 // Protected content component that uses the user context
 function ProtectedContent({
@@ -123,7 +126,7 @@ function ProtectedContent({
           // console.log("vtoken4:", vtoken);
 
           try {
-            const data = JSON.parse(responseText);
+            const data: UserData[] = JSON.parse(responseText);
             // console.log('Token verification successful. User data:', data[0]);
 
             // Store the employee data in context
@@ -271,6 +274,13 @@ function ProtectedContent({
                   icon: "InfoIcon",
                   disabled: true,
                 },
+                {
+                  title: t("sharing_voice"),
+                  url: "/sharing_voice",
+                  icon: "InfoIcon",
+                 
+                },
+
               ]
             : []),
         ],
@@ -412,7 +422,9 @@ function ProtectedContent({
         <LoadingPage />
       ) : isAuthenticated && userData ? (
         // Only show navigation and children if user is authenticated AND userData is available
-        <Navigation data={data}>{children}</Navigation>
+        
+          userData[0].password  ? <Navigation data={data}>{children}</Navigation> : <AddPassword /> 
+      
       ) : (
         // Show login page if not authenticated OR userData is not available
         <LoginPage />
@@ -428,7 +440,7 @@ export default function ProtectedLayout({
 }>) {
   return (
     <UserProvider>
-      <ProtectedContent>{children}</ProtectedContent>
+      <ProtectedContent>{children} </ProtectedContent>
     </UserProvider>
   );
 }

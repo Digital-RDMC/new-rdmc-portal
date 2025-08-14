@@ -61,6 +61,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import  LanguageSwitcher  from "@/components/LanguageSwitcher";
+import { Button } from "./ui/button";
 
 // Helper function to render icons by string name
 const IconComponent = ({ iconName, ...props }: { iconName: string; [key: string]: any }) => {
@@ -119,6 +120,20 @@ interface Data {
   }[];
 }
 
+function removeCookie(name: string) {
+  try {
+    if (typeof document === "undefined") return;
+
+    document.cookie = `${name}=; Max-Age=0; path=/`;
+    location.reload();
+  } catch (error) {
+    console.error(`Error removing cookie ${name}:`, error);
+  }
+}
+
+
+
+
 const Navigation = ({
   data,
   children,
@@ -133,6 +148,8 @@ const Navigation = ({
 
   const [activePath, setActivePath] = useState<any>(null);
   const [sideBarData, setSideBarData] = useState<Data | null>(null);
+  const [empPhoto, setEmpPhoto] = useState<string | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 const { userData } = useUser();
   // This ensures we only render the translated content after the component is mounted
   // to prevent hydration errors
@@ -145,9 +162,35 @@ const { userData } = useUser();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+
+
+  
   useEffect(() => {
     if (mounted) {
-      
+      // const ss = `https://photos.rdmc-portal.com/Photo_ID/${userData?.[0]?.empcode}.png`
+      // setEmpPhoto(
+      //   userData?.[0]?.empcode && (ss.endsWith('.svg') || ss.startsWith('data:image/svg'))
+      //     ? userData?.[0]?.photo
+      //     : "https://photos.rdmc-portal.com/Photo_ID/Male.jpg"
+      // );
+
+
+    //   async function fetchPhoto() {
+    //   try {
+    //     const res = await fetch(`https://photos.rdmc-portal.com/Photo_ID/${userData?.[0]?.empcode}.png`);
+    //     const blob = await res.blob();
+    //     const objectUrl = URL.createObjectURL(blob); // or convert to base64
+    //     setPhotoUrl(objectUrl);
+    //   } catch (err) {
+    //     console.error("Error fetching photo:", err);
+    //   }
+    // }
+
+    //  fetchPhoto();
+
+
+
 
       const s = data?.navMain.map((item) => {
         // Create a shallow copy to avoid mutating the original data
@@ -194,31 +237,21 @@ const { userData } = useUser();
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-transparent text-primary">
                       {/* <GalleryVerticalEnd  className="size-4" /> */}
 
-                      {userData?.[0]?.photo ? (
+                      {/* {photoUrl ? ( */}
+                      {/* <img src={ `https://photos.rdmc-portal.com/Photo_ID/${userData?.[0].empcode}.jpg` } alt="Logo" className="rounded-full object-cover" width={32} height={32} /> */}
                         <Image
-                          src={
-                            userData?.[0]?.photo || "/path/to/default/logo.png"
-                          }
+                          src={ `https://photos.rdmc-portal.com/Photo_ID/${userData?.[0].empcode}.jpg` }
                           alt="Logo"
                           className="rounded-full object-cover"
                           width={32}
                           height={32}
                         />
-                      ) : (
-                        <svg
-                          className="rounded-full object-cover w-8 h-8 text-gray-400"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          width={32}
-                          height={32}
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
+                      {/* ) : (
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-teal-900 to-teal-600 text-white font-semibold text-sm">
+                          {userData?.[0]?.firstname?.[0]?.toUpperCase() || 'U'}
+                          {userData?.[0]?.lastname?.[0]?.toUpperCase() || ''}
+                        </div>
+                      )} */}
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
                       <span className="font-semibold">
@@ -407,6 +440,11 @@ const { userData } = useUser();
             <div className="flex items-center gap-2 pr-4">
               <ThemeSwitcher />
               <LanguageSwitcher />
+              <Button variant="outline" size="icon" onClick={() => removeCookie("vtoken")} className="rounded-full border-0">
+
+                <LogOutIcon  />
+              </Button>
+              
             </div>
           </header>
           <main className=" w-full mx-0 ">

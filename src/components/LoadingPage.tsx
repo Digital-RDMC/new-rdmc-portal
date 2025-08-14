@@ -11,7 +11,7 @@ interface LoadingPageProps {
 }
 
 export default function LoadingPage({ title, removeHeader, removeLogo }: LoadingPageProps) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
     const currentLanguage = i18n.language; // This gets the current language
   // const isRTL = currentLanguage === 'ar' ; // Add other RTL languages as needed
@@ -94,7 +94,7 @@ useEffect(() => {
           className="text-2xl font-bold mb-2"
           style={{ color: 'oklch(0.4008 0.1039 184.76)' }}
         >
-          RDMC Portal
+          {t('rdmcPortal')}
         </h2>
         )}
         
@@ -102,7 +102,7 @@ useEffect(() => {
           className="text-lg mb-4"
           style={{ color: 'oklch(0.5508 0.0739 184.76)' }}
         >
-         {title ? (<span>{title}</span>) : (<span>Welcome back...</span>)} 
+         {title ? (<span>{title}</span>) : (<span>{t('welcomeBack')}</span>)} 
         </p>
         
         {/* Progress Bar */}

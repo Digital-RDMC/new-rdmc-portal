@@ -62,6 +62,75 @@ const arLocale = {
     didntReceiveCode: 'لم تتلق الرمز؟',
     resendOTP: 'إعادة إرسال OTP',
     resendIn: 'إعادة الإرسال خلال',
+
+    // Password setup translations
+    welcomeToPortal: 'مرحباً بك في بوابة RDMC!',
+    firstTimeLogin: 'هذه هي المرة الأولى التي تسجل فيها الدخول إلى تطبيقنا.',
+    passwordPreference: 'لراحتك، هل تفضل إعداد كلمة مرور لتسجيل دخول أسرع في المستقبل، أم المتابعة لتلقي إشعارات OTP عبر {{method}} في كل مرة تسجل دخولك؟',
+    setUpPassword: 'إعداد كلمة المرور (موصى به)',
+    continueWithOTP: 'المتابعة بـ OTP في كل مرة',
+    changePreferenceLater: 'يمكنك دائماً تغيير هذا التفضيل لاحقاً في إعدادات حسابك.',
+    createSecurePassword: 'إنشاء كلمة مرور آمنة لتسجيل دخول أسرع في المستقبل',
+    password: 'كلمة المرور',
+    confirmPassword: 'تأكيد كلمة المرور',
+    passwordRequirements: 'متطلبات كلمة المرور:',
+    minEightChars: 'على الأقل 8 أحرف',
+    upperLowerCase: 'يحتوي على أحرف كبيرة وصغيرة',
+    oneNumber: 'يحتوي على رقم واحد على الأقل',
+    oneSpecialChar: 'يحتوي على رمز خاص واحد على الأقل',
+    passwordsDoNotMatch: 'كلمات المرور غير متطابقة',
+    settingPassword: 'جاري إعداد كلمة المرور...',
+    setPassword: 'تعيين كلمة المرور',
+    back: 'عودة',
+    passwordSetSuccessfully: 'تم تعيين كلمة المرور بنجاح!',
+    canUsePasswordFuture: 'يمكنك الآن استخدام كلمة المرور الخاصة بك لتسجيل الدخول بشكل أسرع في المستقبل.',
+    continueToDashboard: 'المتابعة إلى لوحة التحكم',
+
+
+    // Password login translations
+    enterYourPassword: 'أدخل كلمة المرور الخاصة بك',
+    pleaseEnterPasswordToContinue: 'يرجى إدخال كلمة المرور للمتابعة',
+    enterYourPasswordPlaceholder: 'أدخل كلمة المرور الخاصة بك',
+ 
+    backToLogin: 'العودة إلى تسجيل الدخول',
+    // First-time setup translations
+    welcomeToRDMCPortal: 'مرحباً بك في بوابة RDMC!',
+    helloFirstTime: 'مرحباً {{name}}! هذه هي المرة الأولى التي تسجل فيها الدخول إلى تطبيقنا.',
+    passwordPreferenceQuestion: 'لراحتك، هل تفضل إعداد كلمة مرور لتسجيل دخول أسرع في المستقبل، أم المتابعة لتلقي إشعارات OTP عبر {{method}} في كل مرة تسجل دخولك؟',
+    email: 'البريد الإلكتروني',
+    sms: 'الرسائل النصية',
+    setUpPasswordRecommended: 'إعداد كلمة المرور (موصى به)',
+    continueWithOTPEachTime: 'المتابعة بـ OTP في كل مرة',
+    setUpYourPassword: 'إعداد كلمة المرور الخاصة بك',
+    confirmYourPassword: 'تأكيد كلمة المرور',
+    // Password validation messages
+    passwordMinLength: 'يجب أن تكون كلمة المرور 8 أحرف على الأقل',
+    passwordUpperCase: 'يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل',
+    passwordLowerCase: 'يجب أن تحتوي كلمة المرور على حرف صغير واحد على الأقل',
+    passwordNumber: 'يجب أن تحتوي كلمة المرور على رقم واحد على الأقل',
+    passwordSpecialChar: 'يجب أن تحتوي كلمة المرور على رمز خاص واحد على الأقل',
+    failedToSetPassword: 'فشل في تعيين كلمة المرور',
+    networkErrorTryAgain: 'خطأ في الشبكة. يرجى المحاولة مرة أخرى.',
+    networkErrorTryLater: 'خطأ في الشبكة. يرجى المحاولة مرة أخرى لاحقاً.',
+    // News component translations
+    loadingNews: 'جاري تحميل الأخبار...',
+    news: 'الأخبار',
+    error: 'خطأ',
+    noTitle: 'لا يوجد عنوان',
+    noDescription: 'لا يوجد وصف',
+    failedToFetchNews: 'فشل في جلب الأخبار',
+    invalidDataFormat: 'تم استلام تنسيق بيانات غير صالح',
+    seeMore: 'عرض المزيد',
+    seeLess: 'عرض أقل',
+    like: 'إعجاب',
+    likes: 'إعجابات',
+    comment: 'تعليق',
+    comments: 'تعليقات',
+    share: 'مشاركة',
+    peopleWhoLikedThis: 'الأشخاص الذين أعجبوا بهذا',
+    writeComment: 'اكتب تعليقاً...',
+    noNewsAvailable: 'لا توجد أخبار متاحة.',
+    // Password login translations
     // Login warning translations
     loginFailed: 'فشل تسجيل الدخول',
     loginFailedMessage: 'لم نتمكن من تسجيل دخولك باستخدام البيانات المقدمة.',
@@ -95,6 +164,7 @@ const arLocale = {
     compliance: 'الامتثال',
     userguide: 'دليل المستخدم',
     digitalservicedesk: 'خدمة الدعم الرقمي',
+    sharing_voice: 'مشاركة الصوت',
    
     homepage: {
       HOME: "الرئيسية",
@@ -109,6 +179,15 @@ const arLocale = {
       CapitalTrain: "قطار العاصمة (LRT)",
       medical: "الخدمات الطبية",
       loading: "جاري التحميل",
+    },
+    chat: {
+      title: "شاركوا أصواتكم",
+      subtitle: "اصنعوا مستقبلنا",
+      description: "تحدث مع مساعد RDMC الذكي للحصول على المساعدة والدعم",
+      welcome_message: "مرحباً! أنا مساعدك الذكي. كيف يمكنني مساعدتك اليوم؟",
+      simulated_response: "أفهم أنك قلت: \"{{userMessage}}\". هذه استجابة محاكاة. يمكنك ربط هذا بخدمة الذكاء الاصطناعي المفضلة لديك مثل OpenAI أو Anthropic أو أي واجهة برمجة تطبيقات دردشة أخرى.",
+      input_placeholder: "اكتب رسالتك هنا...",
+      send_instructions: "اضغط Enter للإرسال • Shift+Enter لسطر جديد"
     },
   }
 };

@@ -46,6 +46,7 @@ interface NewsItem {
     ref: string | null;
     release_date: string;
     type: 'birth wishes' | 'anniversary' | 'event';
+    related_emp: string | null;
     comments?: Comment[];
     likes?: Like[];
 }
@@ -330,13 +331,25 @@ export default function News() {
               </div>
 
               {/* Content section */}
-              <div className="p-4">
-                <h2 className="text-lg font-semibold text-gray-900 mb-3 leading-tight">
-                  {getTitle(item)}
+              <div className="p-4 flex flex-row gap-4 relative">
+
+
+
+                <div className="">
+                <h2 className="text-lg font-semibold text-gray-900 mb-3 leading-tight flex flex-row justify-start items-center gap-0">
+                
+                {
+                  item.related_emp && item.related_emp !== 'null' ? (
+                    <div className="me-3">
+                      <Image src={`https://photos.rdmc-portal.com/Photo_ID/${item.related_emp}.jpg`} alt={''} width={500} height={500} className="h-auto w-24 object-cover z-50 rounded-lg" />
+                    </div>
+                  ) : null}
+                  <span> {getTitle(item)}</span>
                 </h2>
 
                 {getShortDescription(item) && (
                   <div className="mb-4">
+                    
                     {!expandedItems.has(index) ? (
                       // Show short description with "See more" button
                       <div>
@@ -364,6 +377,8 @@ export default function News() {
                         </button>
                       </div>
                     )}
+
+                    
                   </div>
                 )}
 
@@ -373,11 +388,22 @@ export default function News() {
                     {getDescription(item)}
                   </p>
                 )}
+
+
+</div>
+
+    
+
+
+
+
+
               </div>
 
               {/* Image section */}
               {/* {getImageSrc(item) && ( */}
-                <div className="relative">
+                {/* <div className="relative">
+                 
                   <Image
                     // src={getImageSrc(item) as string}
                     src="/images/birthday_wishes/1.jpg"
@@ -386,7 +412,10 @@ export default function News() {
                     alt={getTitle(item)}
                     className="w-full h-60 object-cover"
                   />
-                </div>
+              
+
+
+                </div> */}
               {/* )} */}
 
               {/* Interaction section - like Facebook post interactions */}

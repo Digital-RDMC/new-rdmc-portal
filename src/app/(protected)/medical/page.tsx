@@ -55,7 +55,7 @@ export default function MedicalPage() {
   const itemsPerPage = 50; // Number of items per page
   const totalPages = Math.ceil(totalRecords / itemsPerPage);
 
-  const { t, i18n } = useTranslation();
+  const {  i18n } = useTranslation();
   const currentLanguage = i18n.language; // This gets the current language
   const isArabic = currentLanguage === 'ar';
 

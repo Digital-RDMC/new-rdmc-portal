@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { set } from "date-fns";
+
 
 
 
@@ -44,7 +44,7 @@ export default function MedicalFilter() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [medicalData, setMedicalData] = useState<MedicalData[]>([]);
-    const [filteredMedicalData, setFilteredMedicalData] = useState<MedicalData[]>([]);
+    // const [filteredMedicalData, setFilteredMedicalData] = useState<MedicalData[]>([]);
     
     const [governate, setGovernate] = useState<string[]>([]);
     const [governateOpen, setGovernateOpen] = useState(false);
@@ -79,7 +79,7 @@ export default function MedicalFilter() {
 
             
             setMedicalData(data);
-            setFilteredMedicalData(data); // Initialize filtered data with all data
+            // setFilteredMedicalData(data); // Initialize filtered data with all data
             setGovernate(Array.from(new Set(data.map(item => item.governate))));
             setArea(Array.from(new Set(data.map(item => item.area))));
             setSpecialty(Array.from(new Set(data.map(item => item.specialty))));

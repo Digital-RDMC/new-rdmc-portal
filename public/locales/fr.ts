@@ -62,6 +62,74 @@ const frLocale = {
     didntReceiveCode: 'Vous n\'avez pas reçu le code ?',
     resendOTP: 'Renvoyer OTP',
     resendIn: 'Renvoyer dans',
+
+
+    
+    // Traductions pour la configuration du mot de passe
+      welcomeToPortal: 'Bienvenue sur le portail RDMC !',
+      firstTimeLogin: 'C\'est votre première connexion à notre application.',
+      passwordPreference: 'Pour votre commodité, préférez-vous configurer un mot de passe pour des connexions plus rapides à l\'avenir, ou continuer à recevoir des notifications OTP à chaque connexion ?',
+      setUpPassword: 'Configurer un mot de passe (Recommandé)',
+      continueWithOTP: 'Continuer avec OTP à chaque fois',
+      changePreferenceLater: 'Vous pouvez toujours modifier cette préférence plus tard dans les paramètres de votre compte.',
+      createSecurePassword: 'Créez un mot de passe sécurisé pour des connexions plus rapides à l\'avenir',
+      password: 'Mot de passe',
+      confirmPassword: 'Confirmer le mot de passe',
+      passwordRequirements: 'Exigences du mot de passe :',
+      minEightChars: 'Au moins 8 caractères',
+      upperLowerCase: 'Contient des lettres majuscules et minuscules',
+      oneNumber: 'Contient au moins un chiffre',
+      oneSpecialChar: 'Contient au moins un caractère spécial',
+      passwordsDoNotMatch: 'Les mots de passe ne correspondent pas',
+      settingPassword: 'Configuration du mot de passe...',
+      setPassword: 'Définir le mot de passe',
+      back: 'Retour',
+      passwordSetSuccessfully: 'Mot de passe défini avec succès !',
+      canUsePasswordFuture: 'Vous pouvez désormais utiliser votre mot de passe pour des connexions plus rapides à l\'avenir.',
+      continueToDashboard: 'Continuer vers le tableau de bord',
+    // Password login translations
+    enterYourPassword: 'Entrez votre mot de passe',
+    pleaseEnterPasswordToContinue: 'Veuillez entrer votre mot de passe pour continuer',
+    enterYourPasswordPlaceholder: 'Entrez votre mot de passe',
+ 
+    backToLogin: 'Retour à la connexion',
+    // First-time setup translations
+    welcomeToRDMCPortal: 'Bienvenue sur le portail RDMC !',
+    helloFirstTime: 'Bonjour {{name}} ! C\'est votre première connexion à notre application.',
+    passwordPreferenceQuestion: 'Pour votre commodité, préférez-vous configurer un mot de passe pour des connexions plus rapides à l\'avenir, ou continuer à recevoir des notifications OTP via {{method}} à chaque connexion ?',
+    email: 'e-mail',
+    sms: 'SMS',
+    setUpPasswordRecommended: 'Configurer un mot de passe (Recommandé)',
+    continueWithOTPEachTime: 'Continuer avec OTP à chaque fois',
+    setUpYourPassword: 'Configurez votre mot de passe',
+    confirmYourPassword: 'Confirmez votre mot de passe',
+    // Password validation messages
+    passwordMinLength: 'Le mot de passe doit contenir au moins 8 caractères',
+    passwordUpperCase: 'Le mot de passe doit contenir au moins une lettre majuscule',
+    passwordLowerCase: 'Le mot de passe doit contenir au moins une lettre minuscule',
+    passwordNumber: 'Le mot de passe doit contenir au moins un chiffre',
+    passwordSpecialChar: 'Le mot de passe doit contenir au moins un caractère spécial',
+    failedToSetPassword: 'Échec de la définition du mot de passe',
+    networkErrorTryAgain: 'Erreur réseau. Veuillez réessayer.',
+    networkErrorTryLater: 'Erreur réseau. Veuillez réessayer plus tard.',
+    // News component translations
+    loadingNews: 'Chargement des actualités...',
+    news: 'Actualités',
+    error: 'Erreur',
+    noTitle: 'Aucun titre',
+    noDescription: 'Aucune description',
+    failedToFetchNews: 'Échec du chargement des actualités',
+    invalidDataFormat: 'Format de données invalide reçu',
+    seeMore: 'Voir plus',
+    seeLess: 'Voir moins',
+    like: 'J\'aime',
+    likes: 'j\'aime',
+    comment: 'Commenter',
+    comments: 'commentaires',
+    share: 'Partager',
+    peopleWhoLikedThis: 'Personnes qui ont aimé ceci',
+    writeComment: 'Écrivez un commentaire...',
+    noNewsAvailable: 'Aucune actualité disponible.',
     // Login warning translations
     loginFailed: 'Échec de la connexion',
     loginFailedMessage: 'Nous n\'avons pas pu vous connecter avec les identifiants fournis.',
@@ -95,7 +163,7 @@ const frLocale = {
     compliance: 'Conformité',
     userguide: 'Guide de l\'utilisateur',
     digitalservicedesk: 'Service d\'assistance numérique',
-    
+    sharing_voice: 'Mise en partage de la voix',
 
     homepage: {
       HOME: "ACCUEIL",
@@ -108,6 +176,15 @@ const frLocale = {
       Wecare: "Nous nous soucions",
       Currently12stations22trains20000passengerday: "Actuellement<br/>12 stations<br/>22 trains<br/>20 000 passagers / jour",
       CapitalTrain: "Train de la capitale (LRT)",
+    },
+    chat: {
+      title: "Partagez votre voix",
+      subtitle: "Façonnez notre avenir",
+      description: "Discutez avec l'assistant IA RDMC pour obtenir de l'aide et du support",
+      welcome_message: "Bonjour ! Je suis votre assistant IA. Comment puis-je vous aider aujourd'hui ?",
+      simulated_response: "Je comprends que vous avez dit : \"{{userMessage}}\". Ceci est une réponse simulée. Vous pouvez intégrer ceci avec votre service d'IA préféré comme OpenAI, Anthropic, ou toute autre API de chat.",
+      input_placeholder: "Tapez votre message ici...",
+      send_instructions: "Appuyez sur Entrée pour envoyer • Shift+Entrée pour une nouvelle ligne"
     },
   }
 };

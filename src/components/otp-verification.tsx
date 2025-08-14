@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface OTPVerificationProps {
@@ -133,7 +133,7 @@ export function OTPVerification({
                   <Label className="text-center">{t('enterOTPCode')}</Label>
                   <div className="flex gap-2 justify-center">
                     {displayOtp.map((displayDigit, index) => (
-                      <Input
+                      <input
                         key={index}
                         id={`otp-${index}`}
                         type="text"
@@ -141,6 +141,8 @@ export function OTPVerification({
                         pattern="[0-9]*"
                         maxLength={1}
                         value={displayDigit}
+                        
+                        title={t('otpDigitTitle') || `OTP digit ${index + 1}`}
                         onChange={(e) => {
                           // Only allow numeric input
                           const value = e.target.value.replace(/[^0-9]/g, '');
@@ -149,20 +151,20 @@ export function OTPVerification({
                           }
                         }}
                         onKeyDown={(e) => handleKeyDown(index, e)}
-                        className="w-12 h-12 text-center text-lg font-semibold"
+                        className="w-12 h-12 text-center text-lg font-semibold border border-gray-300 rounded-md"
                         disabled={isLoading}
                       />
                     ))}
                   </div>
                 </div>
                 
-                <Button 
+                {/* <Button 
                   type="submit" 
                   className="w-full" 
                   disabled={isLoading || otp.join('').length !== 4}
                 >
                   {isLoading ? t('verifying') : t('verify')}
-                </Button>
+                </Button> */}
 
                 <div className="text-center space-y-2">
                   <p className="text-sm text-muted-foreground">
